@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1636821082 source:c:\general-temp\iut-stuff\cours\ccc\saé c-algo\essai\fonction.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"fonction.h"
+
+1636670296 source:c:\general-temp\iut-stuff\cours\ccc\saé c-algo\essai\main.c
+	<stdio.h>
+	<stdlib.h>
+	"fonction.h"
+
+1636820868 c:\general-temp\iut-stuff\cours\ccc\saé c-algo\essai\fonction.h
+
+1637072137 source:c:\general-temp\iut-stuff\cours\ccc\tp6\ex1.c
+	<stdio.h>
+	<stdlib.h>
+
