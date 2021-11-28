@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 // #include "fonction.h"
 
 typedef struct client {
@@ -19,7 +20,7 @@ typedef struct repertoire {
 
 REPERTOIRE Importer(char * nom_fichier);
 void Afficher(REPERTOIRE rep);
-void InterfaceTerminal();
+void InterfaceTerminal(REPERTOIRE rep);
 
 
 /* fonction principale */
@@ -32,7 +33,7 @@ int main()
 
     // Afficher(rep);
 
-    InterfaceTerminal();
+    InterfaceTerminal(rep);
 
     return 0;
 }
@@ -130,13 +131,13 @@ void Afficher(REPERTOIRE rep)
 
 
 
-void InterfaceTerminal()
+void InterfaceTerminal(REPERTOIRE rep)
 {
     int fin=0;
-    char commande[10];
+    int commande;
     char arg[10];
     CLIENT client;
-    REPERTOIRE rep;
+   
 
 
     printf("comment fonctionne une commande ?\n");
