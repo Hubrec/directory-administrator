@@ -3,7 +3,7 @@
 #include <string.h>
 #include "fonction.h"
 
-
+const char* TabIntitules[7] = { "prenom","nom","ville","codePostal","telephone","email","profession" };
 
 REPERTOIRE Importer(char* nom_fichier)
 {
@@ -78,18 +78,64 @@ REPERTOIRE Importer(char* nom_fichier)
 
 
 
-void Afficher(REPERTOIRE rep)
+void Afficher(REPERTOIRE rep, char * valeur)
 {
     int i;
-    for (i = 0; i < rep.taille; i++) {
-        printf("%s \n", rep.clients[i].prenom);
-        printf("%s ", rep.clients[i].nom);
-        printf("%s ", rep.clients[i].ville);
-        printf("%s ", rep.clients[i].code_postal);
-        printf("%s ", rep.clients[i].telephone);
-        printf("%s ", rep.clients[i].email);
-        printf("%s ", rep.clients[i].profession);
+    int valeurInt = -1;
+    for (int j = 0; j < 7; j++) {
+        if (!strcmp(valeur, TabIntitules[j])) {
+            valeurInt = j;
+        }
     }
+    switch(valeurInt)
+    {
+        case PRENOM:
+            for (i = 0; i < rep.taille; i++) {
+                printf("%s \n", rep.clients[i].prenom);
+            }
+            break;
+        case NOM:
+            for (i = 0; i < rep.taille; i++) {
+                printf("%s \n", rep.clients[i].nom);
+            }
+            break;
+        case VILLE:
+            for (i = 0; i < rep.taille; i++) {
+                printf("%s \n", rep.clients[i].ville);
+            }
+            break;
+        case CP:
+            for (i = 0; i < rep.taille; i++) {
+                printf("%s \n", rep.clients[i].code_postal);
+            }
+            break;
+        case TEL:
+            for (i = 0; i < rep.taille; i++) {
+                printf("%s \n", rep.clients[i].telephone);
+            }
+            break;
+        case MAIL:
+            for (i = 0; i < rep.taille; i++) {
+                printf("%s \n", rep.clients[i].email);
+            }
+            break;
+        case PROF:
+            for (i = 0; i < rep.taille; i++) {
+                printf("%s \n", rep.clients[i].profession);
+            }
+            break;
+        default :
+            for (i = 0; i < rep.taille; i++) {
+                printf("%s \n", rep.clients[i].prenom);
+                printf("%s ", rep.clients[i].nom);
+                printf("%s ", rep.clients[i].ville);
+                printf("%s ", rep.clients[i].code_postal);
+                printf("%s ", rep.clients[i].telephone);
+                printf("%s ", rep.clients[i].email);
+                printf("%s ", rep.clients[i].profession);
+            }
+            break;
+        }
 }
 
 
@@ -97,24 +143,29 @@ void Afficher(REPERTOIRE rep)
 void InterfaceTerminal(REPERTOIRE rep)
 {
     int fin = 0;
-    char commande[10];
-    char arg[10];
+    char commande[20];
+    char arg[20];
     CLIENT client;
 
 
-
-    printf("comment fonctionne une commande ?\n");
-    printf("dans le terminal quand on affiche \" entrer une commande :\"\n");
-    printf("on la rentre sous la forme : commande argument\n");
-    printf("quand on a pas d'agruments a mettre on pourra ecrire 0 pour le signifier\n\n");
+    //printf("comment fonctionne une commande ?\n");
+    //printf("dans le terminal quand on affiche \" entrer une commande :\"\n");
+    //printf("on la rentre sous la forme : commande argument\n");
+    //printf("quand on a pas d'agruments a mettre on pourra ecrire 0 pour le signifier\n\n");
 
     printf("les differents commandes actuellement disponibles sont :\n");
-    printf("    - close  (pas d'arguments) \n\n");
+    printf("    - close \n");
+    printf("    - afficher \n");
+    printf("    - troisieme \n\n");
+
+
+
 
 
     do {
+        printf("*********************\n");
         printf("entrer une commande : ");
-        fgets(commande, 10, stdin);
+        fgets(commande, 20, stdin);
 
         //enlever le retour charriot
 
@@ -122,16 +173,30 @@ void InterfaceTerminal(REPERTOIRE rep)
             commande[strlen(commande) - 1] = '\0';
         }
 
-
-
-        if (!strcmp(commande,"sortir")) {
+        if (!strcmp(commande,"close")) {
             printf("ca marche");
             fin = 1;
         }
 
         if (!strcmp(commande, "afficher")) {
-            fgets(arg, 10, stdin);
-            Afficher(rep);
+
+            printf("arguments pour affichage : \n");
+            printf("-   tout\n");
+            printf("-   nom\n");
+            printf("-   prenom\n");
+            printf("-   ville\n");
+            printf("-   codePostal\n");
+            printf("-   telephone\n");
+            printf("-   email\n");
+            printf("-   profession\n");
+
+            printf("entrer un argument : ");
+            fgets(arg, 20, stdin);
+            if (arg[strlen(arg) - 1] == '\n') {
+                arg[strlen(arg) - 1] = '\0';
+            }
+
+            Afficher(rep,arg);
         }
 
         if (!strcmp(commande, "troisieme")) {

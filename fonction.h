@@ -10,6 +10,11 @@ typedef struct client {
    char * profession;
 } CLIENT;
 
+//juste pour que ce soit plus lisible
+enum CHAMP {PRENOM, NOM, VILLE, CP, TEL, MAIL,PROF};
+
+const char * TabIntitules[7];
+
 typedef struct repertoire {
     CLIENT * clients;
     int taille;
