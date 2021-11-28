@@ -97,7 +97,7 @@ void Afficher(REPERTOIRE rep)
 void InterfaceTerminal(REPERTOIRE rep)
 {
     int fin = 0;
-    int commande;
+    char commande[10];
     char arg[10];
     CLIENT client;
 
@@ -109,23 +109,33 @@ void InterfaceTerminal(REPERTOIRE rep)
     printf("quand on a pas d'agruments a mettre on pourra ecrire 0 pour le signifier\n\n");
 
     printf("les differents commandes actuellement disponibles sont :\n");
-    printf("    - close  (pas d'arguments) \n");
+    printf("    - close  (pas d'arguments) \n\n");
 
-    printf("entrer une commande : ");
-    // fgets(commande,10, stdin);
-    // fgets(arg,10, stdin);
 
     do {
-        scanf("%d", &commande);
+        printf("entrer une commande : ");
+        fgets(commande, 10, stdin);
 
-        if (commande == 1) {
+        //enlever le retour charriot
+
+        if (commande[strlen(commande) - 1] == '\n') {
+            commande[strlen(commande) - 1] = '\0';
+        }
+
+
+
+        if (!strcmp(commande,"sortir")) {
             printf("ca marche");
             fin = 1;
         }
 
-        if (commande == 2) {
-            printf("ca marche");
+        if (!strcmp(commande, "afficher")) {
+            fgets(arg, 10, stdin);
             Afficher(rep);
+        }
+
+        if (!strcmp(commande, "troisieme")) {
+            printf("ok\n");
         }
     } while (fin != 1);
 }
