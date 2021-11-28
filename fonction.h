@@ -17,3 +17,4 @@ typedef struct repertoire {
 
 REPERTOIRE Importer(char * nom_fichier);
 void Afficher(REPERTOIRE rep);
+void InterfaceTerminal(REPERTOIRE rep);

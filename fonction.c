@@ -5,15 +5,16 @@
 
 
 
-REPERTOIRE Importer(char * nom_fichier) {
+REPERTOIRE Importer(char* nom_fichier)
+{
     REPERTOIRE rep;
     CLIENT client;
     rep.taille = 0;
 
-//on ouvre le fichier
-    FILE * fichier = fopen(nom_fichier, "r");
+    //on ouvre le fichier
+    FILE* fichier = fopen(nom_fichier, "r");
 
-//message d'erreur si fichier est vide ou non trouv�
+    //message d'erreur si fichier est vide ou non trouve
     if (fichier == NULL)
     {
         printf("Impossible d'ouvrir l'annuaire");
@@ -22,73 +23,109 @@ REPERTOIRE Importer(char * nom_fichier) {
 
     char buffer[300];
     do {
-        fgets(buffer,300,fichier);
+        fgets(buffer, 300, fichier);
         rep.taille++;
-    }
-    while (! feof(fichier));
+    } while (!feof(fichier));
 
     rep.taille--;
 
     //mallco allocation dynamique
-    rep.clients = malloc(sizeof(CLIENT)*rep.taille);
+    rep.clients = malloc(sizeof(CLIENT) * rep.taille);
 
     rewind(fichier);
 
     int i;
 
-    for(i=0;i<rep.taille;i++) {
-        fgets(buffer,300,fichier);
-        int j=0;
+    for (i = 0; i < rep.taille; i++) {
+        fgets(buffer, 300, fichier);
+        int j = 0;
         int k;
-        for (k=0;k<6;k++) {
-            int debut=j;
-            while(buffer[j]!=',') {
+        for (k = 0; k < 6; k++) {
+            int debut = j;
+            while (buffer[j] != ',') {
                 j++;
             }
             buffer[j] = '\0';
-            char * champ = strdup(buffer+debut);
+            char* champ = strdup(buffer + debut);
             switch (k) {
-                case 0:
-                    rep.clients[i].prenom = champ;
-                    break;
-                case 1:
-                    rep.clients[i].nom = champ;
-                    break;
-                case 2:
-                    rep.clients[i].ville = champ;
-                    break;
-                case 3:
-                    rep.clients[i].code_postal = champ;
-                    break;
-                case 4:
-                    rep.clients[i].telephone = champ;
-                    break;
-                case 5:
-                    rep.clients[i].email = champ;
-                    break;
+            case 0:
+                rep.clients[i].prenom = champ;
+                break;
+            case 1:
+                rep.clients[i].nom = champ;
+                break;
+            case 2:
+                rep.clients[i].ville = champ;
+                break;
+            case 3:
+                rep.clients[i].code_postal = champ;
+                break;
+            case 4:
+                rep.clients[i].telephone = champ;
+                break;
+            case 5:
+                rep.clients[i].email = champ;
+                break;
             }
             j++;
         }
-        char * champ = strdup(buffer+j);
+        char* champ = strdup(buffer + j);
         rep.clients[i].profession = champ;
     }
     fclose(fichier);
     return rep;
 }
 
-void Afficher(REPERTOIRE rep) {
+
+
+void Afficher(REPERTOIRE rep)
+{
     int i;
-    for (i=0;i<rep.taille;i++) {
-        printf("%s ",rep.clients[i].prenom);
-        printf("%s ",rep.clients[i].nom);
-        printf("%s ",rep.clients[i].ville);
-        printf("%s ",rep.clients[i].code_postal);
-        printf("%s ",rep.clients[i].telephone);
-        printf("%s ",rep.clients[i].email);
-        printf("%s ",rep.clients[i].profession);
+    for (i = 0; i < rep.taille; i++) {
+        printf("%s \n", rep.clients[i].prenom);
+        printf("%s ", rep.clients[i].nom);
+        printf("%s ", rep.clients[i].ville);
+        printf("%s ", rep.clients[i].code_postal);
+        printf("%s ", rep.clients[i].telephone);
+        printf("%s ", rep.clients[i].email);
+        printf("%s ", rep.clients[i].profession);
     }
 }
 
 
 
+void InterfaceTerminal(REPERTOIRE rep)
+{
+    int fin = 0;
+    int commande;
+    char arg[10];
+    CLIENT client;
 
+
+
+    printf("comment fonctionne une commande ?\n");
+    printf("dans le terminal quand on affiche \" entrer une commande :\"\n");
+    printf("on la rentre sous la forme : commande argument\n");
+    printf("quand on a pas d'agruments a mettre on pourra ecrire 0 pour le signifier\n\n");
+
+    printf("les differents commandes actuellement disponibles sont :\n");
+    printf("    - close  (pas d'arguments) \n");
+
+    printf("entrer une commande : ");
+    // fgets(commande,10, stdin);
+    // fgets(arg,10, stdin);
+
+    do {
+        scanf("%d", &commande);
+
+        if (commande == 1) {
+            printf("ca marche");
+            fin = 1;
+        }
+
+        if (commande == 2) {
+            printf("ca marche");
+            Afficher(rep);
+        }
+    } while (fin != 1);
+}
