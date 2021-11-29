@@ -3,7 +3,7 @@
 #include <string.h>
 #include "fonction.h"
 
-const char* TabIntitules[7] = { "prenom","nom","ville","codePostal","telephone","email","profession" };
+const char * TabIntitules[7] = { "prenom","nom","ville","codePostal","telephone","email","profession"};
 
 REPERTOIRE Importer(char* nom_fichier)
 {
@@ -168,10 +168,13 @@ void InterfaceTerminal(REPERTOIRE rep)
         fgets(commande, 20, stdin);
 
         //enlever le retour charriot
-
         if (commande[strlen(commande) - 1] == '\n') {
             commande[strlen(commande) - 1] = '\0';
         }
+
+        printf("\n");
+
+
 
         if (!strcmp(commande,"close")) {
             printf("ca marche");
@@ -181,14 +184,10 @@ void InterfaceTerminal(REPERTOIRE rep)
         if (!strcmp(commande, "afficher")) {
 
             printf("arguments pour affichage : \n");
-            printf("-   tout\n");
-            printf("-   nom\n");
-            printf("-   prenom\n");
-            printf("-   ville\n");
-            printf("-   codePostal\n");
-            printf("-   telephone\n");
-            printf("-   email\n");
-            printf("-   profession\n");
+            int i;
+            for (i=0;i<7;i++) {
+                printf("-   %s\n", TabIntitules[i]);
+            }
 
             printf("entrer un argument : ");
             fgets(arg, 20, stdin);
@@ -202,5 +201,6 @@ void InterfaceTerminal(REPERTOIRE rep)
         if (!strcmp(commande, "troisieme")) {
             printf("ok\n");
         }
+
     } while (fin != 1);
 }
