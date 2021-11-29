@@ -77,7 +77,6 @@ REPERTOIRE Importer(char* nom_fichier)
 }
 
 
-
 void Afficher(REPERTOIRE rep, char * valeur)
 {
     int i;
@@ -147,12 +146,6 @@ void InterfaceTerminal(REPERTOIRE rep)
     char arg[20];
     CLIENT client;
 
-
-    //printf("comment fonctionne une commande ?\n");
-    //printf("dans le terminal quand on affiche \" entrer une commande :\"\n");
-    //printf("on la rentre sous la forme : commande argument\n");
-    //printf("quand on a pas d'agruments a mettre on pourra ecrire 0 pour le signifier\n\n");
-
     printf("les differents commandes actuellement disponibles sont :\n");
     printf("    - close \n");
     printf("    - afficher \n");
@@ -197,7 +190,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 
             Afficher(rep,arg);
         }
-
+        
         if (!strcmp(commande, "troisieme")) {
             printf("ok\n");
         }
