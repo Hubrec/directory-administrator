@@ -146,16 +146,13 @@ void InterfaceTerminal(REPERTOIRE rep)
     char arg[20];
     CLIENT client;
 
-    printf("les differents commandes actuellement disponibles sont :\n");
-    printf("    - close \n");
-    printf("    - afficher \n");
-    printf("    - troisieme \n\n");
-
-
-
-
+   
 
     do {
+        printf("les differents commandes actuellement disponibles sont :\n");
+        printf("    - close \n");
+        printf("    - afficher \n");
+        printf("    - troisieme \n\n");
         printf("*********************\n");
         printf("entrer une commande : ");
         fgets(commande, 20, stdin);
