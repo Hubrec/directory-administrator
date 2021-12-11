@@ -227,7 +227,6 @@ void InterfaceTerminal(REPERTOIRE rep)
 
 
 		if (!strcmp(commande, "close")) {
-			printf("ca marche");
 			fin = 1;
 		}
 
@@ -241,19 +240,23 @@ void InterfaceTerminal(REPERTOIRE rep)
 
 			printf("entrer un argument : ");
 			fgets(arg, 20, stdin);
-			if (arg[strlen(arg) - 1] == '\n') {
-				arg[strlen(arg) - 1] = '\0';
-			}
+			retourchariot(arg);
 
 			Afficher(rep, arg, rep.tabind[numero(arg)]);
 		}
 
 		if (!strcmp(commande, "trier")) {
-			fgets(arg, 20, stdin);
-			if (arg[strlen(arg) - 1] == '\n') {
-				arg[strlen(arg) - 1] = '\0';
+
+			int i;
+			printf("arguments pour affichage : \n");
+			for (i = 0; i < 7; i++) {
+				printf("-   %s\n", TabIntitules[i]);
 			}
+			printf("entrer un argument : ");
+			fgets(arg, 20, stdin);
+			retourchariot(arg);
 			int champ = numero(arg);
+
 			triindirecte(rep, champ);
 			printf("le tableau a bien ete trie\n\n");
 		}
