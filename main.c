@@ -11,7 +11,7 @@ int main()
 
     rep = Importer("annuaire5000.csv");
 
-    // Afficher(rep);
+    //appel de l'interface terminal qui gere tout les appels de fonctions
 
     InterfaceTerminal(rep);
 
