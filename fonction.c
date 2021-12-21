@@ -249,6 +249,35 @@ void triindirecte(REPERTOIRE rep, int champ)
 	}
 }
 
+void tripeigne(REPERTOIRE rep, int champ)
+{
+	
+	int interval = rep.taille;
+	int echange = 0;
+	int tmp = 0;
+
+	while (interval > 1 || echange) {
+		interval = (interval / (4./3.));
+
+		if (interval < 1) interval = 1;
+
+		int i = 0;
+		echange = 0;
+
+		while (i < rep.taille - interval) {
+			if ( compare(rep.clients[rep.tabind[champ][i]], rep.clients[rep.tabind[champ][i + interval]], champ) > 0 ) {
+
+				tmp = rep.tabind[champ][i];
+				rep.tabind[champ][i] = rep.tabind[champ][i + interval];
+				rep.tabind[champ][i + interval] = tmp;
+
+				echange = 1;
+			}
+			i++;
+		}
+	}
+}
+
 int numero(char * nom) {
 	int champ = -1;
 	int j;
@@ -286,6 +315,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 	printf("    - afficher2 \n");
 	printf("    - afficher \n");
 	printf("    - trier \n");
+	printf("    - tripeigne \n");
 	printf("    - aide \n\n");
 
 	do {
@@ -330,7 +360,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 
 			synt = 0;
 			int i;
-			printf("arguments pour affichage : \n");
+			printf("arguments pour trier : \n");
 			for (i = 0; i < 8; i++) {
 				printf("-   %s\n", TabIntitules[i]);
 			}
@@ -341,7 +371,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 			int champ = numero(arg);
 
 			if (champ == -1) {
-				printf("ERREUR SYNTAXE interface terminal\n");
+				printf("ERREUR SYNTAXE\n");
 			}
 			else {
 				if (champ == 7) {
@@ -359,6 +389,45 @@ void InterfaceTerminal(REPERTOIRE rep)
 				else {
 					clock_t tic = clock();
 					triindirecte(rep, champ);
+					clock_t toc = clock();
+					printf("Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+				}
+			}
+		}
+
+		if (!strcmp(commande, "tripeigne")) {
+
+			synt = 0;
+			int i;
+			printf("arguments pour trier : \n");
+			for (i = 0; i < 8; i++) {
+				printf("-   %s\n", TabIntitules[i]);
+			}
+
+			printf("\nentrer un argument : ");
+			fgets(arg, 20, stdin);
+			retourchariot(arg);
+			int champ = numero(arg);
+
+			if (champ == -1) {
+				printf("ERREUR SYNTAXE\n");
+			}
+			else {
+				if (champ == 7) {
+					int k;
+					clock_t tic = clock();
+					for (k = 0; k < 7; k++) {
+						clock_t tac = clock();
+						tripeigne(rep, k);
+						clock_t tuc = clock();
+						printf("Duree du %d tri : %lf ms\n", k + 1, ((double)(tuc - tac) / CLOCKS_PER_SEC) * 1000);
+					}
+					clock_t toc = clock();
+					printf("Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+				}
+				else {
+					clock_t tic = clock();
+					tripeigne(rep, champ);
 					clock_t toc = clock();
 					printf("Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
 				}
