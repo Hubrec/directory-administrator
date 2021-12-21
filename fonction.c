@@ -229,7 +229,7 @@ int compare(CLIENT c1, CLIENT c2, int champ) {
 	return -1;
 }
 
-void triindirecte(REPERTOIRE rep, int champ)
+void triinsertion(REPERTOIRE rep, int champ)
 {
 	//CLIENT client;
 	int i, j, tmp;
@@ -315,7 +315,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 	printf("    - afficher2 \n");
 	printf("    - afficher \n");
 	printf("    - trier \n");
-	printf("    - tripeigne \n");
+	printf("    - trier2 \n");
 	printf("    - aide \n\n");
 
 	do {
@@ -356,7 +356,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 			Afficher2(rep, arg, rep.tabind[numero(arg)]);
 		}
 
-		if (!strcmp(commande, "trier")) {
+		if (!strcmp(commande, "trier2")) {
 
 			synt = 0;
 			int i;
@@ -379,7 +379,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 					clock_t tic = clock();
 					for (k = 0; k < 7; k++) {
 						clock_t tac = clock();
-						triindirecte(rep, k);
+						triinsertion(rep, k);
 						clock_t tuc = clock();
 						printf("Duree du %d tri : %lf ms\n",k+1, ((double)(tuc - tac) / CLOCKS_PER_SEC) * 1000);
 					}
@@ -388,14 +388,14 @@ void InterfaceTerminal(REPERTOIRE rep)
 				}
 				else {
 					clock_t tic = clock();
-					triindirecte(rep, champ);
+					triinsertion(rep, champ);
 					clock_t toc = clock();
 					printf("Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
 				}
 			}
 		}
 
-		if (!strcmp(commande, "tripeigne")) {
+		if (!strcmp(commande, "trier")) {
 
 			synt = 0;
 			int i;
