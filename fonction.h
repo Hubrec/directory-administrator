@@ -31,5 +31,5 @@ void tripeigne(REPERTOIRE rep, int champ);
 int numero(char* nom);
 void retourchariot(char* chaine);
 void interfaceaff(REPERTOIRE rep);
-void Afficher(REPERTOIRE rep, int tabcol[], char* filtre);
+void Afficher(REPERTOIRE rep, int tabcol[], char* filtre, int champ);
 

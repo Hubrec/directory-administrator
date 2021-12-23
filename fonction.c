@@ -113,7 +113,7 @@ char* RecupereChamp(CLIENT c, int numerochamp) {
 	return NULL;
 }
 
-void Afficher(REPERTOIRE rep, int tabcol[], char* filtre) {
+void Afficher(REPERTOIRE rep, int tabcol[], char* filtre, int champ) {
 
 	/*Il faut en entrée :
 		de quoi afficher juste les colonnes voulues (tableau de int)
@@ -135,7 +135,7 @@ void Afficher(REPERTOIRE rep, int tabcol[], char* filtre) {
 		int affiche = 0;
 		for (j = 0; j < 7 && !affiche; j++) {
 
-			p = strstr(RecupereChamp(rep.clients[rep.tabind[PRENOM][i]],j), filtre);
+			p = strstr(RecupereChamp(rep.clients[rep.tabind[champ][i]],j), filtre);
 			if (p) {
 				affiche = 1;
 			}
@@ -143,7 +143,7 @@ void Afficher(REPERTOIRE rep, int tabcol[], char* filtre) {
 		if (affiche) {
 			for (j = 0; j < 7; j++) {
 				if (tabcol[j]) { // si on doit afficher ce champ
-					printf(" %*s |", espacement[j], RecupereChamp(rep.clients[rep.tabind[PRENOM][i]], j));
+					printf(" %*s |", espacement[j], RecupereChamp(rep.clients[rep.tabind[champ][i]], j));
 				}
 			}
 			printf("\n");
@@ -307,15 +307,15 @@ void InterfaceTerminal(REPERTOIRE rep)
 	int * tabind;
 
 	tabind = malloc(sizeof(int) * rep.taille);
-	int tabtaille = rep.taille;
 
 
 	printf("les differents commandes actuellement disponibles sont :\n");
 	printf("    - close \n");
-	printf("    - afficher2 \n");
 	printf("    - afficher \n");
+	printf("    - afficher2 \n");
 	printf("    - trier \n");
 	printf("    - trier2 \n");
+	printf("    - nombreclients \n");
 	printf("    - aide \n\n");
 
 	do {
@@ -337,7 +337,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 
 		if (!strcmp(commande, "afficher")) {
 			synt = 0;
-			interfaceaff(rep); /* on renvoi dans une nouvelle fct interface car ca va etre une grosse interface */
+			interfaceaff(rep, tabind); /* on renvoi dans une nouvelle fct interface car ca va etre une grosse interface */
 		}
 
 		if (!strcmp(commande, "afficher2")) {
@@ -438,15 +438,25 @@ void InterfaceTerminal(REPERTOIRE rep)
 			synt = 0;
 			printf("les differents commandes actuellement disponibles sont :\n");
 			printf("    - close \n");
-			printf("    - afficher2 \n");
 			printf("    - afficher \n");
+			printf("    - afficher2 \n");
 			printf("    - trier \n");
+			printf("    - trier2 \n");
+			printf("    - nombreclients \n");
 			printf("    - aide \n\n");
 		}
 
-		if (!strcmp(commande, "nbc")) {
+		if (!strcmp(commande, "nombreclients")) {
 			synt = 0;
 			printf("le nombre de clients est : %d\n", rep.taille);
+		}
+
+		if (!strcmp(commande, "completer")) {
+
+			printf("le but de cette commande est d'afficher tous les clients auquels il manque des informations selon certains paramètres");
+			printf("jkgbrbh");
+
+
 		}
 
 		if (synt == 1) printf("ERREUR SYNTAXE\n");
@@ -454,14 +464,14 @@ void InterfaceTerminal(REPERTOIRE rep)
 	} while (fin != 1);
 }
 
-void interfaceaff(REPERTOIRE rep) {
+void interfaceaff(REPERTOIRE rep, int * tabind) {
 
 
 	char *arg = malloc(sizeof(char)*100);
-	int* tabind;
 	char* filtre = malloc(sizeof(char) * 30);
 	int over = 0;
 	int i, m, j=0;
+	char* champsaisi = malloc(sizeof(char) * 30);
 
 	int tabcol[7];
 	for (m = 0; m < 7; m++) {
@@ -513,17 +523,16 @@ void interfaceaff(REPERTOIRE rep) {
 
 	} while (over != 1);
 
-	for (m = 0; m < 7; m++) {
-		printf("%d - ", tabcol[m]);
-	}
-	printf("\n");
-
 	printf("Entrer un filtre a appliquer (ne rien mettre pour ne pas en appliquer) : ");
-	fgets(filtre, 20, stdin);
+	fgets(filtre, 30, stdin);
 	retourchariot(filtre);
 
-	printf("%s\n", filtre);
+	printf("Entrer selon quel colonne vous voulez l'afficher : ");
+	fgets(champsaisi, 30, stdin);
+	retourchariot(champsaisi);
+	int lechamp = numero(champsaisi);
 
-	Afficher(rep, tabcol, filtre);
+
+	Afficher(rep, tabcol, filtre, lechamp);
 
 }
