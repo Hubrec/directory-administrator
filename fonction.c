@@ -659,3 +659,6 @@ void sauvegarder(REPERTOIRE rep, int tabtaille_avantajout, int tabtaille)
 	}
 	printf("Sauvegarde accomplie !");
 }
+
+
+//ici
