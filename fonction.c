@@ -86,36 +86,37 @@ REPERTOIRE Importer(char* nom_fichier)
 	return rep;
 }
 
-char* RecupereChamp(CLIENT c, int numerochamp) {
+char* RecupereChamp(CLIENT client, int numerochamp) {
 	switch (numerochamp) {
 		case PRENOM:
-			return(c.prenom);
+			return(client.prenom);
 			break;
 		case NOM:
-			return(c.nom);
+			return(client.nom);
 			break;
 		case VILLE:
-			return(c.ville);
+			return(client.ville);
 			break;
 		case CP:
-			return(c.code_postal);
+			return(client.code_postal);
 			break;
 		case TEL:
-			return(c.telephone);
+			return(client.telephone);
 			break;
 		case MAIL:
-			return(c.email);
+			return(client.email);
 			break;
 		case PROF:
-			return(c.profession);
+			return(client.profession);
 			break;
 	}
 	return NULL;
 }
 
-void Afficher(REPERTOIRE rep, int tabcol[], char* filtre) {
+void Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int champ) {
 
-	/*Il faut en entrée :
+	/* commentaires pour la reflexioon de la création de la fonction
+	Il faut en entrée : 
 		de quoi afficher juste les colonnes voulues (tableau de int)
 
 		utiliser strstr(partie, chaine); pour le filtre et comparer avec toutes les cases du tableau
@@ -128,22 +129,28 @@ void Afficher(REPERTOIRE rep, int tabcol[], char* filtre) {
 					if je doit afficher switch bidule
 						( switch ) dernier niveau d'intentation : pour afficher juste les bionnes colonnes*/
 
-	int i,j;
-	char* p;
+	int i,j,q;
 
 	for (i = 0; i < rep.taille; i++) { // pour tous les clients
 		int affiche = 0;
 		for (j = 0; j < 7 && !affiche; j++) {
 
-			p = strstr(RecupereChamp(rep.clients[rep.tabind[PRENOM][i]],j), filtre);
-			if (p) {
-				affiche = 1;
+			if (tabfiltre[j] == 1) {
+				if (filtre) {
+					q = strstr(RecupereChamp(rep.clients[rep.tabind[champ][i]], j), filtre) == NULL;
+				}
+				else {
+					q = (RecupereChamp(rep.clients[rep.tabind[champ][i]], j)[0] == '\0');
+				}
+				if (q) {
+					affiche = 1;
+				}
 			}
 		}
 		if (affiche) {
 			for (j = 0; j < 7; j++) {
 				if (tabcol[j]) { // si on doit afficher ce champ
-					printf(" %*s |", espacement[j], RecupereChamp(rep.clients[rep.tabind[PRENOM][i]], j));
+					printf(" %*s |", espacement[j], RecupereChamp(rep.clients[rep.tabind[champ][i]], j));
 				}
 			}
 			printf("\n");
@@ -307,15 +314,23 @@ void InterfaceTerminal(REPERTOIRE rep)
 	int * tabind;
 
 	tabind = malloc(sizeof(int) * rep.taille);
+
 	int tabtaille = rep.taille;
+	int tabtaille_avantajout = tabtaille;
 
 
 	printf("les differents commandes actuellement disponibles sont :\n");
 	printf("    - close \n");
-	printf("    - afficher2 \n");
 	printf("    - afficher \n");
+	printf("    - afficher2 \n");
 	printf("    - trier \n");
 	printf("    - trier2 \n");
+	printf("    - nombreclients \n");
+	printf("    - completer \n");
+	printf("    - ajout\n");
+	printf("    - supression\n");
+	printf("    - modification\n");
+	printf("    - sauvegarder\n");
 	printf("    - aide \n\n");
 
 	do {
@@ -337,7 +352,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 
 		if (!strcmp(commande, "afficher")) {
 			synt = 0;
-			interfaceaff(rep); /* on renvoi dans une nouvelle fct interface car ca va etre une grosse interface */
+			interfaceaff(rep, tabind); /* on renvoi dans une nouvelle fct interface car ca va etre une grosse interface */
 		}
 
 		if (!strcmp(commande, "afficher2")) {
@@ -438,15 +453,71 @@ void InterfaceTerminal(REPERTOIRE rep)
 			synt = 0;
 			printf("les differents commandes actuellement disponibles sont :\n");
 			printf("    - close \n");
-			printf("    - afficher2 \n");
 			printf("    - afficher \n");
+			printf("    - afficher2 \n");
 			printf("    - trier \n");
+			printf("    - trier2 \n");
+			printf("    - nombreclients \n");
+			printf("    - completer \n");
+			printf("    - ajout\n");
+			printf("    - supression\n");
+			printf("    - modification\n");
+			printf("    - sauvegarder\n");
 			printf("    - aide \n\n");
 		}
 
-		if (!strcmp(commande, "nbc")) {
+		if (!strcmp(commande, "nombreclients")) {
 			synt = 0;
 			printf("le nombre de clients est : %d\n", rep.taille);
+		}
+
+		if (!strcmp(commande, "completer")) {
+
+			char* filtre = NULL;
+			int tabcol[7];
+			int tabfiltre[7];
+			int m;
+			for (m = 0; m < 7; m++) {
+				tabcol[m] = 1;
+			}
+			for (m = 0; m < 7; m++) {
+				tabfiltre[m] = 0;
+			}
+
+			printf("Le but de cette commande est d'afficher tous les clients auquels il manque des informations selon le champ. \n");
+			printf("saisir le champ : ");
+
+
+			fgets(arg, 20, stdin);
+			retourchariot(arg);
+			int champ = numero(arg);
+
+			tabfiltre[champ] = 1;
+
+			
+			Afficher(rep, tabcol, tabfiltre, filtre, champ);
+		}
+
+		if (!strcmp(commande, "ajout"))
+		{
+			synt = 0;
+			ajout(rep, tabtaille);
+		}
+
+		if (!strcmp(commande, "supression"))
+		{
+			synt = 0;
+		}
+
+		if (!strcmp(commande, "modification"))
+		{
+			synt = 0;
+		}
+
+		if (!strcmp(commande, "sauvegarder"))
+		{
+			synt = 0;
+			sauvegarder(rep, tabtaille_avantajout, tabtaille);
 		}
 
 		if (synt == 1) printf("ERREUR SYNTAXE\n");
@@ -454,18 +525,23 @@ void InterfaceTerminal(REPERTOIRE rep)
 	} while (fin != 1);
 }
 
-void interfaceaff(REPERTOIRE rep) {
+void interfaceaff(REPERTOIRE rep, int * tabind) {
 
 
-	char *arg = malloc(sizeof(char)*100);
-	int* tabind;
-	char* filtre = malloc(sizeof(char) * 30);
+	char arg[100];
+	char filtre[30];
 	int over = 0;
 	int i, m, j=0;
+	char champsaisi[30];
 
 	int tabcol[7];
 	for (m = 0; m < 7; m++) {
 		tabcol[m] = 0;
+	}
+
+	int tabfiltre[7];
+	for (m = 0; m < 7; m++) {
+		tabfiltre[m] = 1;
 	}
 
 	printf("Colonnes a afficher (enumerer une liste parmis ces choix) : \n");
@@ -513,17 +589,73 @@ void interfaceaff(REPERTOIRE rep) {
 
 	} while (over != 1);
 
-	for (m = 0; m < 7; m++) {
-		printf("%d - ", tabcol[m]);
-	}
-	printf("\n");
-
 	printf("Entrer un filtre a appliquer (ne rien mettre pour ne pas en appliquer) : ");
-	fgets(filtre, 20, stdin);
+	fgets(filtre, 30, stdin);
 	retourchariot(filtre);
 
-	printf("%s\n", filtre);
+	printf("Entrer selon quel colonne vous voulez l'afficher : ");
+	fgets(champsaisi, 30, stdin);
+	retourchariot(champsaisi);
+	int lechamp = numero(champsaisi);
 
-	Afficher(rep, tabcol, filtre);
 
+	Afficher(rep, tabcol, tabfiltre, filtre, lechamp);
+
+}
+
+void ajout(REPERTOIRE rep, int tabtaille)
+{
+	printf("%d\n", rep.taille);
+	rep.taille++;
+	printf("%d\n", rep.taille);
+	rep.clients = realloc(rep.clients, sizeof(CLIENT) * rep.taille);
+	printf("%s", rep.clients[rep.taille - 1].nom);
+	if (rep.clients == NULL)
+	{
+		printf("Reallocation impossible");
+		free(rep.clients);
+		exit(EXIT_FAILURE);
+	}
+
+	printf("saisissez le prenom :\n");
+	fgets(rep.clients[rep.taille - 1].prenom, 30, stdin);
+
+	printf("saisissez le nom :\n");
+	fgets(rep.clients[rep.taille - 1].nom, 30, stdin);
+
+	printf("saisissez la ville :\n");
+	fgets(rep.clients[rep.taille - 1].ville, 20, stdin);
+
+	printf("saisissez le code postale :\n");
+	fgets(rep.clients[rep.taille - 1].code_postal, 7, stdin);
+
+	printf("saisissez le numero de telephonne :\n");
+	fgets(rep.clients[rep.taille - 1].telephone, 10, stdin);
+
+	printf("saisissez l'email :\n");
+	fgets(rep.clients[rep.taille - 1].email, 40, stdin);
+
+	printf("saisissez la profession :\n");
+	fgets(rep.clients[rep.taille - 1].profession, 30, stdin);
+	printf("ajout reussi !\n");
+
+	rep.clients[rep.taille - 1].prenom = "mathis";
+	printf("%s", rep.clients[rep.taille - 1].prenom);
+}
+
+void sauvegarder(REPERTOIRE rep, int tabtaille_avantajout, int tabtaille)
+{
+	FILE* fichier = fopen("annuaire5000.csv", "a");
+	if (fichier == NULL)
+	{
+		printf("Impossible d'ouvrir l'annuaire");
+		exit(EXIT_FAILURE);
+	}
+	while (tabtaille > tabtaille_avantajout)
+	{
+		fprintf(fichier, "\n");
+		fprintf(fichier, "%s", rep.clients[tabtaille_avantajout]);
+		tabtaille_avantajout++;
+	}
+	printf("Sauvegarde accomplie !");
 }
