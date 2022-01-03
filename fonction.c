@@ -314,25 +314,19 @@ void InterfaceTerminal(REPERTOIRE rep)
 	char commande[20];
 	char arg[20];
 	int * tabind;
+	int show = 0;
 
 	tabind = malloc(sizeof(int) * rep.taille);
 
-
-	printf("les differents commandes actuellement disponibles sont :\n");
-	printf("   -- afficher \n");
-	printf("   -- rechercher\n");
-	printf("   -- ajout\n");
-	printf("    - nombrecl \n");
-	printf("    - incomplet \n");
-	printf("    - aide \n");
-	printf("    - fermer \n\n");
+	printf("\n Bienvenu sur \"Annuaire 2000\" \n");
+	printf("\n (taper \"aide\" pour afficher les commandes disponibles) \n\n");
 
 	do {
 
 		int synt = 1;
 
-		printf("*********************\n");
-		printf("entrer une commande : ");
+		printf("*************************\n");
+		printf("---> entrer une commande : ");
 		fgets(commande, 20, stdin);
 		retourchariot(commande);
 		printf("\n");
@@ -348,7 +342,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 			interfaceaff(rep, tabind); // on renvoi dans une nouvelle fct interface car ca va etre une grosse interface
 		}
 
-		if (!strcmp(commande, "nombrecl")) {
+		if (!strcmp(commande, "nbclients")) {
 			synt = 0;
 			printf("le nombre de clients est : %d\n", rep.taille);
 		}
@@ -359,16 +353,52 @@ void InterfaceTerminal(REPERTOIRE rep)
 			rep = ajout(rep);
 		}
 
+		if (!strcmp(commande, "show")) 
+		{
+			if (show == 0) {
+				show = 1;
+				synt = 0;
+			}
+		}
+
+		if (!strcmp(commande, "hide")) 
+		{
+			if (show == 1) {
+				show = 0;
+				synt = 0;
+			}
+		}
+
 		if (!strcmp(commande, "aide")) {
+			
 			synt = 0;
-			printf("les differents commandes actuellement disponibles sont :\n");
-			printf("   -- afficher \n");
-			printf("   -- rechercher\n");
-			printf("   -- ajout\n");
-			printf("    - nombrecl \n");
-			printf("    - incomplet \n");
-			printf("    - aide \n");
-			printf("    - fermer \n\n");
+
+			if (show == 0) {
+				printf(" les differents commandes actuellement disponibles sont :\n");
+				printf("   -- afficher \n");
+				printf("   -- rechercher\n");
+				printf("   -- ajout\n");
+				printf("    - nbclients \n");
+				printf("    - incomplet \n");
+				printf("    - aide \n");
+				printf("    - fermer \n");
+				printf("    - (fonctions cachees) --> show\n\n");
+			}
+			else {
+				printf(" les differents commandes actuellement disponibles sont :\n");
+				printf("   -- afficher \n");
+				printf("   -- rechercher\n");
+				printf("   -- ajout\n");
+				printf("    - nbclients \n");
+				printf("    - incomplet \n");
+				printf("    - aide \n");
+				printf("    - fermer \n");
+				printf("    - (fonctions cachees) --> hide\n");
+				printf("		- trier\n");
+				printf("		- trier2\n");
+				printf("		- afficher2\n");
+				printf("		- afficher2\n\n");
+			}
 		}
 
 		if (!strcmp(commande, "incomplet")) {
@@ -389,7 +419,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 
 			int val = Afficher(rep, tabcol, tabfiltre, filtre, champ);
 
-			printf("\nle nombre de clients dont la fiche est incomplete est : %d\n\n", val);
+			printf("\n le nombre de clients dont la fiche est incomplete est : %d\n\n", val);
 		}
 
 		if (!strcmp(commande, "trier")) {
@@ -397,12 +427,12 @@ void InterfaceTerminal(REPERTOIRE rep)
 			synt = 0;
 			int i;
 			int champ;
-			printf("arguments pour trier : \n");
+			printf(" arguments pour trier : \n");
 			for (i = 0; i < 8; i++) {
-				printf("-   %s\n", TabIntitules[i]);
+				printf("	- %s\n", TabIntitules[i]);
 			}
 
-			printf("\nentrer un argument (valeur de base -tout) : ");
+			printf("\n -> entrer un argument (valeur de base -tout) : ");
 			fgets(arg, 20, stdin);
 			retourchariot(arg);
 			if (arg[0] == '\0') {
@@ -412,7 +442,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 				champ = numero(arg);
 				
 				if (champ == -1) {
-					printf("ERREUR SYNTAXE\n");
+					printf(" ERREUR SYNTAXE\n");
 				}
 			}
 
@@ -423,16 +453,16 @@ void InterfaceTerminal(REPERTOIRE rep)
 					clock_t tac = clock();
 					tripeigne(rep, k);
 					clock_t tuc = clock();
-					printf("Duree du %d tri : %lf ms\n", k + 1, ((double)(tuc - tac) / CLOCKS_PER_SEC) * 1000);
+					printf(" Duree du %d tri : %lf ms\n", k + 1, ((double)(tuc - tac) / CLOCKS_PER_SEC) * 1000);
 				}
 				clock_t toc = clock();
-				printf("Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+				printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
 			}
 			else {
 				clock_t tic = clock();
 				tripeigne(rep, champ);
 				clock_t toc = clock();
-				printf("Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+				printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
 			}
 		}
 
@@ -440,13 +470,13 @@ void InterfaceTerminal(REPERTOIRE rep)
 		if (!strcmp(commande, "afficher2")) {
 
 			synt = 0;
-			printf("arguments pour affichage : \n");
+			printf(" arguments pour affichage : \n");
 			int i;
 			for (i = 0; i < 8; i++) {
-				printf("-   %s\n", TabIntitules[i]);
+				printf("	- %s\n", TabIntitules[i]);
 			}
 
-			printf("entrer un argument : ");
+			printf(" -> entrer un argument : ");
 			fgets(arg, 20, stdin);
 			retourchariot(arg);
 
@@ -458,18 +488,18 @@ void InterfaceTerminal(REPERTOIRE rep)
 
 			synt = 0;
 			int i;
-			printf("arguments pour trier : \n");
+			printf(" arguments pour trier : \n");
 			for (i = 0; i < 8; i++) {
-				printf("-   %s\n", TabIntitules[i]);
+				printf("	- %s\n", TabIntitules[i]);
 			}
 
-			printf("\nentrer un argument : ");
+			printf("\n -> entrer un argument : ");
 			fgets(arg, 20, stdin);
 			retourchariot(arg);
 			int champ = numero(arg);
 
 			if (champ == -1) {
-				printf("ERREUR SYNTAXE\n");
+				printf(" ERREUR SYNTAXE\n");
 			}
 			else {
 				if (champ == 7) {
@@ -479,21 +509,21 @@ void InterfaceTerminal(REPERTOIRE rep)
 						clock_t tac = clock();
 						triinsertion(rep, k);
 						clock_t tuc = clock();
-						printf("Duree du %d tri : %lf ms\n", k + 1, ((double)(tuc - tac) / CLOCKS_PER_SEC) * 1000);
+						printf(" Duree du %d tri : %lf ms\n", k + 1, ((double)(tuc - tac) / CLOCKS_PER_SEC) * 1000);
 					}
 					clock_t toc = clock();
-					printf("Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+					printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
 				}
 				else {
 					clock_t tic = clock();
 					triinsertion(rep, champ);
 					clock_t toc = clock();
-					printf("Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+					printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
 				}
 			}
 		}
 
-		if (synt == 1) printf("ERREUR SYNTAXE\n");
+		if (synt == 1) printf(" ERREUR SYNTAXE\n");
 
 	} while (fin != 1);
 }
@@ -517,12 +547,12 @@ void interfaceaff(REPERTOIRE rep, int * tabind) {
 		tabfiltre[m] = 1;
 	}
 
-	printf("Colonnes a afficher (enumerer une liste parmis ces choix) : \n");
+	printf(" Colonnes a afficher (enumerer une liste parmis ces choix) : \n");
 	for (i = 0; i < 8; i++) {
-		printf("-   %s\n", TabIntitules[i]);
+		printf("	- %s\n", TabIntitules[i]);
 	}
 
-	printf("entrer une liste de colonnes (valeur par defaut -tout) : ");
+	printf(" -> entrer une liste de colonnes (valeur par defaut -tout) : ");
 	fgets(arg, 100, stdin);
 	
 	if (arg[0] == '\n') {
@@ -544,7 +574,7 @@ void interfaceaff(REPERTOIRE rep, int * tabind) {
 				decoupe[j] = '\0';
 				int champ = numero(decoupe);
 				if (champ == -1) {
-					printf("ERREUR SYNTAXE !!!\n");
+					printf(" ERREUR SYNTAXE\n");
 					over = 1;
 				}
 				else if (champ == TOUT) {
@@ -562,11 +592,11 @@ void interfaceaff(REPERTOIRE rep, int * tabind) {
 		while (over != 1);
 	}
 
-	printf("Entrer un filtre a appliquer (valeur par defaut -pas de filtre) : ");
+	printf(" -> Entrer un filtre a appliquer (valeur par defaut -pas de filtre) : ");
 	fgets(filtre, 30, stdin);
 	retourchariot(filtre);
 
-	printf("Entrer selon quel colonne vous voulez l'afficher (valeur par defaut -prenom) : ");
+	printf(" -> Entrer selon quel colonne vous voulez l'afficher (valeur par defaut -prenom) : ");
 	fgets(champsaisi, 30, stdin);
 	retourchariot(champsaisi);
 
@@ -581,7 +611,7 @@ void interfaceaff(REPERTOIRE rep, int * tabind) {
 
 	int val = Afficher(rep, tabcol, tabfiltre, filtre, lechamp);
 
-	printf("\nvous avez affiche %d client(s)\n", val);
+	printf("\n vous avez affiche %d client(s)\n\n", val);
 
 }
 
@@ -593,7 +623,7 @@ REPERTOIRE ajout(REPERTOIRE rep)
 
 	if (rep.clients == NULL)
 	{
-		printf("Reallocation impossible");
+		printf(" echec de reallocation\n");
 		free(rep.clients);
 		exit(EXIT_FAILURE);
 	}
@@ -606,42 +636,42 @@ REPERTOIRE ajout(REPERTOIRE rep)
 
 	char buffer[50];
 
-	printf("saisissez le prenom : ");
+	printf(" -> saisissez le prenom : ");
 	fgets(buffer, 30, stdin);
 	retourchariot(buffer);
 	rep.clients[rep.taille - 1].prenom = strdup(buffer);
 
-	printf("saisissez le nom : ");
+	printf(" -> saisissez le nom : ");
 	fgets(buffer, 30, stdin);
 	retourchariot(buffer);
 	rep.clients[rep.taille - 1].nom = strdup(buffer);
 
-	printf("saisissez la ville : ");
+	printf(" -> saisissez la ville : ");
 	fgets(buffer, 20, stdin);
 	retourchariot(buffer);
 	rep.clients[rep.taille - 1].ville = strdup(buffer);
 
-	printf("saisissez le code postal : ");
+	printf(" -> saisissez le code postal : ");
 	fgets(buffer, 7, stdin);
 	retourchariot(buffer);
 	rep.clients[rep.taille - 1].code_postal = strdup(buffer);
 
-	printf("saisissez le numero de telephonne : ");
+	printf(" -> saisissez le numero de telephonne : ");
 	fgets(buffer, 10, stdin);
 	retourchariot(buffer);
 	rep.clients[rep.taille - 1].telephone = strdup(buffer);
 
-	printf("saisissez l'email : ");
+	printf(" -> saisissez l'email : ");
 	fgets(buffer, 40, stdin);
 	retourchariot(buffer);
 	rep.clients[rep.taille - 1].email = strdup(buffer);
 
-	printf("saisissez la profession : ");
+	printf(" -> saisissez la profession : ");
 	fgets(buffer, 30, stdin);
 	retourchariot(buffer);
 	rep.clients[rep.taille - 1].profession = strdup(buffer);
 
-	printf("\nvous avez ajoune 1 nouveau client\n\n");
+	printf("\n vous avez ajoune 1 nouveau client\n\n");
 	return rep;
 }
 
@@ -653,7 +683,7 @@ void sauvegarder(REPERTOIRE rep) //fonction a revoir pour qu'elle marche
 
 	if (fichier == NULL)
 	{
-		printf("Impossible d'ouvrir l'annuaire");
+		printf(" impossible d'ouvrir l'annuaire");
 		exit(EXIT_FAILURE);
 	}
 
@@ -663,7 +693,7 @@ void sauvegarder(REPERTOIRE rep) //fonction a revoir pour qu'elle marche
 		fprintf(fichier, "%s", rep.clients[tmp].nom);
 		tmp++;
 	}
-	printf("Sauvegarde accomplie !");
+	printf(" sauvegarde accomplie !");
 }
 
 void liberte(REPERTOIRE rep) { //fonction a faire
