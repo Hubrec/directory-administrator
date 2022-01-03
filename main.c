@@ -10,10 +10,15 @@ int main()
     REPERTOIRE rep;
 
     rep = Importer("annuaire5000.csv");
+    
+    int k;
+    for (k = 0; k < 7; k++) {
+        tripeigne(rep, k);
+    }
 
-    //appel de l'interface terminal qui gere tout les appels de fonctions
+    InterfaceTerminal(rep);  //appel de l'interface terminal qui gere tout les appels de fonctions
 
-    InterfaceTerminal(rep);
+    liberte(rep); //fonction a fire pour liberer la memoire
 
     return 0;
 }
