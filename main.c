@@ -16,7 +16,9 @@ int main()
         tripeigne(rep, k);
     }
 
-    InterfaceTerminal(rep);  //appel de l'interface terminal qui gere tout les appels de fonctions
+    rep = InterfaceTerminal(rep);  //appel de l'interface terminal qui gere tout les appels de fonctions
+
+    sauvegarder(rep);
 
     liberte(rep); //fonction a fire pour liberer la memoire
 
