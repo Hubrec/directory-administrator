@@ -7,7 +7,7 @@
 const char * TabIntitules[8] = { "prenom","nom","ville","codepostal","telephone","email","profession","tout"};
 const int espacement[] = { 25,25,25,10,20,45,20 };
 
-REPERTOIRE Importer(char* nom_fichier)
+REPERTOIRE Importer(char* nom_fichier) //responsable fonction : Guerin Toinon
 {
 	REPERTOIRE rep;
 	rep.taille = 0;
@@ -86,7 +86,7 @@ REPERTOIRE Importer(char* nom_fichier)
 	return rep;
 }
 
-char* RecupereChamp(CLIENT client, int numerochamp) {
+char* RecupereChamp(CLIENT client, int numerochamp) { //responsable fonction : Guerin Toinon
 	switch (numerochamp) {
 		case PRENOM:
 			return(client.prenom);
@@ -113,21 +113,7 @@ char* RecupereChamp(CLIENT client, int numerochamp) {
 	}
 }
 
-int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int champ) {
-
-	/* commentaires pour la reflexioon de la création de la fonction
-	Il faut en entrée : 
-		de quoi afficher juste les colonnes voulues (tableau de int)
-
-		utiliser strstr(partie, chaine); pour le filtre et comparer avec toutes les cases du tableau
-
-		plusieurs niveaux d'indentation !!
-
-			( for ) premier niveau d'indentation : boucle pour toutes les lignes ( 1 ligne = 1 client )
-				( if ) deuxieme niveau d'indentation : rechercher dans chaque ligne si on a la correspondance ( filtre sous fonction )
-					( for ) avant dernier niveau d'icrementation : pour tout les champs les champs que l'on shouaite
-					if je doit afficher switch bidule
-						( switch ) dernier niveau d'intentation : pour afficher juste les bionnes colonnes*/
+int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int champ) { //responsable fonction : Guerin Toinon
 
 	int i,j,q;
 	int combien = 0;
@@ -160,7 +146,7 @@ int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int ch
 	return combien;
 }
 
-void Afficher2(REPERTOIRE rep, char* valeur, int tab[])
+void Afficher2(REPERTOIRE rep, char* valeur, int tab[]) //responsable fonction : Guerin Toinon
 {
 	int i, v=0;
 	int valeurInt = numero(valeur);
@@ -218,7 +204,7 @@ void Afficher2(REPERTOIRE rep, char* valeur, int tab[])
 	} 
 }
 
-int compare(CLIENT c1, CLIENT c2, int champ) {
+int compare(CLIENT c1, CLIENT c2, int champ) { //responsable fonction : Guerin Toinon
 	switch (champ) {
 		case NOM:
 			return strcmp(c1.nom, c2.nom);
@@ -238,7 +224,7 @@ int compare(CLIENT c1, CLIENT c2, int champ) {
 	return -1;
 }
 
-void triinsertion(REPERTOIRE rep, int champ)
+void triinsertion(REPERTOIRE rep, int champ) //responsable fonction : Guerin Toinon
 {
 	//CLIENT client;
 	int i, j, tmp;
@@ -258,7 +244,7 @@ void triinsertion(REPERTOIRE rep, int champ)
 	}
 }
 
-void tripeigne(REPERTOIRE rep, int champ)
+void tripeigne(REPERTOIRE rep, int champ) //responsable fonction : Guerin Toinon
 {
 	
 	int interval = rep.taille;
@@ -308,7 +294,7 @@ void retourchariot(char * chaine) {
 	}
 }
 
-void InterfaceTerminal(REPERTOIRE rep)
+void InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toinon
 {
 	int fin = 0;
 	char commande[20];
@@ -332,25 +318,30 @@ void InterfaceTerminal(REPERTOIRE rep)
 		printf("\n");
 
 
-		if (!strcmp(commande, "fermer")) {
+		if (!strcmp(commande, "fermer") || !strcmp(commande, "f")) {
 			synt = 0;
 			fin = 1;
 		}
 
-		if (!strcmp(commande, "afficher")) {
+		if (!strcmp(commande, "afficher") || !strcmp(commande, "a")) {
 			synt = 0;
 			interfaceaff(rep, tabind); // on renvoi dans une nouvelle fct interface car ca va etre une grosse interface
 		}
 
-		if (!strcmp(commande, "nbclients")) {
+		if (!strcmp(commande, "nbclients") || !strcmp(commande, "nbc")) {
 			synt = 0;
-			printf("le nombre de clients est : %d\n", rep.taille);
+			printf("le nombre de clients est : %d\n\n", rep.taille);
 		}
 
-		if (!strcmp(commande, "ajout"))
+		if (!strcmp(commande, "ajout") || !strcmp(commande, "+"))
 		{
 			synt = 0;
 			rep = ajout(rep);
+
+			int k;
+			for (k = 0; k < 7; k++) {
+				tripeigne(rep, k);
+			}
 		}
 
 		if (!strcmp(commande, "show")) 
@@ -369,7 +360,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 			}
 		}
 
-		if (!strcmp(commande, "aide")) {
+		if (!strcmp(commande, "aide") || !strcmp(commande, "\0")) {
 			
 			synt = 0;
 
@@ -394,14 +385,34 @@ void InterfaceTerminal(REPERTOIRE rep)
 				printf("    - aide \n");
 				printf("    - fermer \n");
 				printf("    - (fonctions cachees) --> hide\n");
-				printf("		- trier\n");
-				printf("		- trier2\n");
+				printf("		- tripeigne\n");
+				printf("		- triinser\n");
+				printf("		- detrier\n");
 				printf("		- afficher2\n");
-				printf("		- afficher2\n\n");
+				printf("		- (commande rapide) -> fast\n\n");
 			}
 		}
 
-		if (!strcmp(commande, "incomplet")) {
+		if (!strcmp(commande, "fast")) {
+			
+			synt = 0;
+
+			printf(" les différentes commandes rapides sont : \n");
+			printf("	- afficher   -> a\n");
+			printf("	- rechercher -> r\n");
+			printf("	- ajout		 -> +\n");
+			printf("	- nbclients  -> nbc\n");
+			printf("	- incomplet  -> c\n");
+			printf("	- fermer     -> f\n");
+
+		}
+
+		if (!strcmp(commande, "rechercher") || !strcmp(commande, "r")) {
+			
+			synt = 0;
+		}
+
+		if (!strcmp(commande, "incomplet") || !strcmp(commande, "c")) {
 
 			synt = 0;
 			char* filtre = NULL;
@@ -422,7 +433,20 @@ void InterfaceTerminal(REPERTOIRE rep)
 			printf("\n le nombre de clients dont la fiche est incomplete est : %d\n\n", val);
 		}
 
-		if (!strcmp(commande, "trier")) {
+		if (!strcmp(commande, "detrier")) {
+		
+			synt = 0;
+			int i,j;
+			for (i = 0; i < 7; i++) {
+				for (j = 0; j < rep.taille; j++)
+					rep.tabind[i][j] = j;
+			}
+
+			printf(" vous avez bien supprime le tri");
+
+		}
+
+		if (!strcmp(commande, "tripeigne")) {
 
 			synt = 0;
 			int i;
@@ -484,7 +508,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 		}
 
 		//code inutilisé mais a garder au cas ou
-		if (!strcmp(commande, "trier2")) {
+		if (!strcmp(commande, "triinser")) {
 
 			synt = 0;
 			int i;
@@ -528,7 +552,7 @@ void InterfaceTerminal(REPERTOIRE rep)
 	} while (fin != 1);
 }
 
-void interfaceaff(REPERTOIRE rep, int * tabind) {
+void interfaceaff(REPERTOIRE rep, int * tabind) { //responsable fonction : Guerin Toinon
 
 
 	char arg[100];
@@ -615,7 +639,7 @@ void interfaceaff(REPERTOIRE rep, int * tabind) {
 
 }
 
-REPERTOIRE ajout(REPERTOIRE rep)
+REPERTOIRE ajout(REPERTOIRE rep) //responsable fonction : Guerin Toinon
 {
 
 	rep.taille++;
@@ -671,7 +695,34 @@ REPERTOIRE ajout(REPERTOIRE rep)
 	retourchariot(buffer);
 	rep.clients[rep.taille - 1].profession = strdup(buffer);
 
-	printf("\n vous avez ajoune 1 nouveau client\n\n");
+	printf("\n vous avez ajoute 1 nouveau client\n\n");
+	return rep;
+}
+
+REPERTOIRE suppression(REPERTOIRE rep, int inditem) { // en construction
+
+	
+	rep.clients[inditem] = rep.clients[rep.taille - 1];
+
+
+
+	
+	rep.taille--;
+	rep.clients = realloc(rep.clients, sizeof(CLIENT) * rep.taille);
+
+	if (rep.clients == NULL)
+	{
+		printf(" echec de reallocation\n");
+		free(rep.clients);
+		exit(EXIT_FAILURE);
+	}
+
+	int j;
+	for (j = 0; j < 7; j++) {
+		rep.tabind[j][inditem] = rep.tabind[j][rep.taille - 1];
+		rep.tabind[j] = realloc(rep.tabind[j], sizeof(int) * rep.taille);
+	}
+
 	return rep;
 }
 
@@ -696,7 +747,25 @@ void sauvegarder(REPERTOIRE rep) //fonction a revoir pour qu'elle marche
 	printf(" sauvegarde accomplie !");
 }
 
-void liberte(REPERTOIRE rep) { //fonction a faire
+void liberte(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 
-	free(rep.tabind[0]);
+	int i;
+	
+	for (i = 0; i < 7; i++) {
+		free(rep.tabind[i]);
+	}
+
+	free(rep.tabind);
+
+	for (i = 0; i < rep.taille; i++) {
+		free(rep.clients[i].prenom);
+		free(rep.clients[i].nom);
+		free(rep.clients[i].ville);
+		free(rep.clients[i].code_postal);
+		free(rep.clients[i].telephone);
+		free(rep.clients[i].email);
+		free(rep.clients[i].profession);
+	}
+
+	free(rep.clients);
 }

@@ -35,4 +35,5 @@ int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int ch
 REPERTOIRE ajout(REPERTOIRE rep);
 void sauvegarder(REPERTOIRE rep);
 void liberte(REPERTOIRE rep);
+REPERTOIRE suppression(REPERTOIRE rep, int inditem);
 
