@@ -142,6 +142,7 @@ REPERTOIRE liberte(REPERTOIRE rep);
 *
 */
 REPERTOIRE suppression(REPERTOIRE rep, int inditem);
+int recherche(REPERTOIRE rep, int champ);
 
 /* specification formelle
 *
