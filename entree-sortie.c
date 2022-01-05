@@ -4,7 +4,7 @@
 #include <time.h>
 #include "fonction.h"
 
-REPERTOIRE Importer(char* nom_fichier) //responsable fonction : Guerin Toinon
+REPERTOIRE Importer(char nom_fichier[]) //responsable fonction : Guerin Toinon
 {
 	REPERTOIRE rep;
 	rep.taille = 0;
@@ -111,7 +111,7 @@ void sauvegarder(REPERTOIRE rep) //fonction a revoir pour qu'elle marche
 	fclose(fichier);
 }
 
-void liberte(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
+REPERTOIRE liberte(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 
 	int i;
 
@@ -132,4 +132,5 @@ void liberte(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 	}
 
 	free(rep.clients);
+	return rep;
 }

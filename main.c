@@ -20,7 +20,7 @@ int main()
 
     sauvegarder(rep);
 
-    liberte(rep); //fonction a fire pour liberer la memoire
+    rep = liberte(rep); //fonction a fire pour liberer la memoire
 
     return 0;
 }

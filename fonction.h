@@ -23,7 +23,7 @@ typedef struct repertoire {
     int ** tabind;   // tableau de tableaux d'indices
 } REPERTOIRE;
 
-REPERTOIRE Importer(char* nom_fichier);
+REPERTOIRE Importer(char nom_fichier[30]);
 void Afficher2(REPERTOIRE rep, char* valeur, int tabind[]);
 REPERTOIRE InterfaceTerminal(REPERTOIRE rep);
 void triindirecte(REPERTOIRE rep, int champ);
@@ -34,6 +34,6 @@ void interfaceaff(REPERTOIRE rep, int* tabind);
 int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int champ);
 REPERTOIRE ajout(REPERTOIRE rep);
 void sauvegarder(REPERTOIRE rep);
-void liberte(REPERTOIRE rep);
+REPERTOIRE liberte(REPERTOIRE rep);
 REPERTOIRE suppression(REPERTOIRE rep, int inditem);
 

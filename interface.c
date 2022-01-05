@@ -50,7 +50,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 
 			int k;
 			for (k = 0; k < 7; k++) {
-				tripeigne(rep, k);
+				triinsertion(rep, k);
 			}
 		}
 
@@ -159,7 +159,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 					rep.tabind[i][j] = j;
 			}
 
-			printf(" vous avez bien supprime le tri");
+			printf("\n vous avez bien supprime le tri\n\n");
 
 		}
 
@@ -173,7 +173,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf("	- %s\n", TabIntitules[i]);
 			}
 
-			printf("\n -> entrer un argument (valeur de base -tout) : ");
+			printf("\n -> entrer un argument (valeur par defaut -tout) : ");
 			fgets(arg, 20, stdin);
 			retourchariot(arg);
 			if (arg[0] == '\0') {
@@ -217,14 +217,13 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf("	- %s\n", TabIntitules[i]);
 			}
 
-			printf(" -> entrer un argument : ");
+			printf(" -> entrer un argument (valeur par defaut -tout) : ");
 			fgets(arg, 20, stdin);
 			retourchariot(arg);
 
 			Afficher2(rep, arg, rep.tabind[numero(arg)]);
 		}
 
-		//code inutilisé mais a garder au cas ou
 		if (!strcmp(commande, "triinser")) {
 
 			synt = 0;
@@ -234,11 +233,13 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf("	- %s\n", TabIntitules[i]);
 			}
 
-			printf("\n -> entrer un argument : ");
+			printf("\n -> entrer un argument (valeur par defaut -tout) : ");
 			fgets(arg, 20, stdin);
 			retourchariot(arg);
 			int champ = numero(arg);
-
+			if (arg[0] == '\0') {
+				champ = 7;
+			}
 			if (champ == -1) {
 				printf(" ERREUR SYNTAXE\n");
 			}
@@ -279,7 +280,7 @@ void interfaceaff(REPERTOIRE rep, int* tabind) { //responsable fonction : Guerin
 	int over = 0;
 	int i, m, j = 0;
 	char champsaisi[30];
-	int probleme = 0;
+	int probleme;
 
 	int tabcol[7];
 
@@ -289,6 +290,7 @@ void interfaceaff(REPERTOIRE rep, int* tabind) { //responsable fonction : Guerin
 	}
 
 	do {
+		probleme = 0;
 		for (m = 0; m < 7; m++) {
 			tabcol[m] = 0;
 		}
@@ -320,7 +322,7 @@ void interfaceaff(REPERTOIRE rep, int* tabind) { //responsable fonction : Guerin
 					decoupe[j] = '\0';
 					int champ = numero(decoupe);
 					if (champ == -1) {
-						printf(" ERREUR SYNTAXE\n");
+						printf("\n ERREUR SYNTAXE\n\n");
 						probleme = 1;
 						over = 1;
 					}
@@ -344,19 +346,22 @@ void interfaceaff(REPERTOIRE rep, int* tabind) { //responsable fonction : Guerin
 	fgets(filtre, 30, stdin);
 	retourchariot(filtre);
 
+	int lechamp = 0;;
 	do {
+		if (lechamp == -1) {
+			printf("\n ERREUR SYNTAXE\n\n");
+		}
 		printf(" -> Entrer selon quel colonne vous voulez l'afficher (valeur par defaut -prenom) : ");
 		fgets(champsaisi, 30, stdin);
 		retourchariot(champsaisi);
-	} while (probleme == 1);
 
-	int lechamp;
-	if (champsaisi[0] == '\0') {
-		lechamp = 0;
-	}
-	else {
-		lechamp = numero(champsaisi);
-	}
+		if (champsaisi[0] == '\0') {
+			lechamp = 0;
+		}
+		else {
+			lechamp = numero(champsaisi);
+		}
+	} while (lechamp == -1);
 
 
 	int val = Afficher(rep, tabcol, tabfiltre, filtre, lechamp);
