@@ -410,7 +410,13 @@ void InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toinon
 			
 			synt = 0;
 			int index_mot_recherchee;
+			int champ = 0;
+			char mot_recherchee[50];
+			printf("dans quelle colone voulez vous rechercher ?");
+			scanf("%s", &mot_recherchee);
 			index_mot_recherchee = recherche(rep, champ);
+			if (index_mot_recherchee == -1) printf("null");
+			else printf("%s", rep.clients[rep.tabind[champ][index_mot_recherchee]].prenom);
 		}
 
 		if (!strcmp(commande, "incomplet") || !strcmp(commande, "c")) {
@@ -775,21 +781,28 @@ int recherche(REPERTOIRE rep, int champ) {
 	int indicedep = 0;
 	int indicefin = rep.taille -1;
 	int milieu;
+	char motrechercher[] = "Vincent";
 
 	while(indicedep < indicefin)
 	{
 		milieu = (indicedep + indicefin) / 2;
+		printf("ok1\n");
 
-		if(motrechercher < rep.clients->prenom[rep.tabind[champ][milieu]] || motrechercher > rep.clients->prenom[rep.tabind[champ][milieu]])
+		/*if(motrechercher < rep.clients[rep.tabind[champ][indicedep]].prenom || motrechercher > rep.clients[rep.tabind[champ][indicefin]].prenom)
 		{
+			printf("ok2\n");
+
 			return (-1);
-		}
+		}*/
 		
-		if(rep.clients->prenom[rep.tabind[champ][milieu]] == motrechercher)
+		if(rep.clients[rep.tabind[champ][milieu]].prenom == motrechercher)
 		{
+			printf("trouvé");
 			return(milieu);
 		}
-		else if(rep.clients->prenom[rep.tabind[champ][milieu]] < motrechercher){
+		else if(rep.clients[rep.tabind[champ][milieu]].prenom < motrechercher){
+			printf("ok3\n");
+
 			indicedep = milieu;
 		}
 		else indicefin = milieu;
