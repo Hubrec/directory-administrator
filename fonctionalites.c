@@ -5,7 +5,7 @@
 #include "fonction.h"
 
 const char* TabIntitules[8] = { "prenom","nom","ville","codepostal","telephone","email","profession","tout" };
-const int espacement[] = { 25,25,25,10,20,45,20 };
+const int espacement[] = { 25,30,25,10,20,45,20 };
 
 
 int numero(char* nom) {
@@ -54,6 +54,7 @@ char* RecupereChamp(CLIENT client, int numerochamp) { //responsable fonction : G
 			return(client.profession);
 			break;
 	}
+	return -1;
 }
 
 int compare(CLIENT c1, CLIENT c2, int champ) { //responsable fonction : Guerin Toinon
@@ -223,8 +224,7 @@ REPERTOIRE ajout(REPERTOIRE rep) //responsable fonction : Guerin Toinon
 	rep.taille++;
 	rep.clients = realloc(rep.clients, sizeof(CLIENT) * rep.taille);
 
-	if (rep.clients == NULL)
-	{
+	if (rep.clients == NULL) {
 		printf(" echec de reallocation\n");
 		free(rep.clients);
 		exit(EXIT_FAILURE);
@@ -282,11 +282,16 @@ REPERTOIRE suppression(REPERTOIRE rep, int inditem) { // en construction
 	
 	rep.taille--;
 
+	rep.clients[inditem].prenom = strdup(rep.clients[rep.taille].prenom);
+	rep.clients[inditem].nom = strdup(rep.clients[rep.taille].nom);
+	rep.clients[inditem].ville = strdup(rep.clients[rep.taille].ville);
+	rep.clients[inditem].code_postal = strdup(rep.clients[rep.taille].code_postal);
+	rep.clients[inditem].telephone = strdup(rep.clients[rep.taille].telephone);
+	rep.clients[inditem].email = strdup(rep.clients[rep.taille].email);
+	rep.clients[inditem].profession = strdup(rep.clients[rep.taille].profession);
+
 	rep.clients[inditem] = rep.clients[rep.taille];
 
-
-
-	
 	rep.clients = realloc(rep.clients, sizeof(CLIENT) * rep.taille);
 
 	if (rep.clients == NULL)
@@ -299,7 +304,7 @@ REPERTOIRE suppression(REPERTOIRE rep, int inditem) { // en construction
 
 	int j;
 	for (j = 0; j < 7; j++) {
-		rep.tabind[j][inditem] = rep.tabind[j][rep.taille - 1];
+		rep.tabind[j][inditem] = rep.tabind[j][rep.taille];
 	}
 	for (j = 0; j < 7; j++) {
 		rep.tabind[j] = realloc(rep.tabind[j], sizeof(int) * rep.taille);

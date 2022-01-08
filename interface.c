@@ -21,7 +21,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 
 		int synt = 1;
 
-		printf("*************************\n");
+		printf("\n*************************\n");
 		printf("---> entrer une commande : ");
 		fgets(commande, 20, stdin);
 		retourchariot(commande);
@@ -54,13 +54,21 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			}
 		}
 
-		if (!strcmp(commande, "supprimer")) {
+		if (!strcmp(commande, "supprimer") || !strcmp(commande, "-")) {
 
 			synt = 0;
+			int item;
 
-			int item = 5001;
+			printf(" -> selectionner un numero (temporaire) : ");
+			int retour = scanf("%d", &item);
+			retour = getchar();
 
 			rep = suppression(rep,item);
+
+			int k;
+			for (k = 0; k < 7; k++) {
+				triinsertion(rep, k);
+			}
 		}
 
 		if (!strcmp(commande, "show"))
@@ -129,10 +137,11 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			printf("	- afficher   -> a\n");
 			printf("	- rechercher -> r\n");
 			printf("	- ajout		 -> +\n");
+			printf("	- supprimer  -> -\n");
 			printf("	- nbclients  -> nbc\n");
 			printf("	- incomplet  -> c\n");
 			printf("	- fermer     -> f\n");
-			printf("	- effacer    -> s\n");
+			printf("	- effacer    -> e\n");
 
 		}
 
@@ -141,7 +150,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			synt = 0;
 		}
 
-		if (!strcmp(commande, "effacer")) {
+		if (!strcmp(commande, "effacer") || !strcmp(commande, "e")) {
 			
 			synt = 0;
 			system("cls");
@@ -310,11 +319,10 @@ void interfaceaff(REPERTOIRE rep, int* tabind) { //responsable fonction : Guerin
 			tabcol[m] = 0;
 		}
 
-		printf(" Colonnes a afficher (enumerer une liste parmis ces choix) : \n");
 		for (i = 0; i < 8; i++) {
 			printf(" %s  | ", TabIntitules[i]);
 		}
-		printf("\n");
+		printf("\n\n");
 
 		printf(" -> entrer une liste de colonnes (valeur par defaut -tout) : ");
 		fgets(arg, 100, stdin);
@@ -366,12 +374,6 @@ void interfaceaff(REPERTOIRE rep, int* tabind) { //responsable fonction : Guerin
 		for (m = 0; m < 7; m++) {
 			tabfiltre[m] = 0;
 		}
-
-		printf(" Colonnes a afficher (enumerer une liste parmis ces choix) : \n");
-		for (i = 0; i < 8; i++) {
-			printf(" %s  | ", TabIntitules[i]);
-		}
-		printf("\n");
 
 		printf(" -> entrer une liste de colonnes sur lesquelles appliquer un filtre (valeur par defaut -tout) : ");
 		fgets(arg, 100, stdin);
