@@ -54,6 +54,15 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			}
 		}
 
+		if (!strcmp(commande, "supprimer")) {
+
+			synt = 0;
+
+			int item = 5001;
+
+			rep = suppression(rep,item);
+		}
+
 		if (!strcmp(commande, "show"))
 		{
 			if (show == 0) {
@@ -85,6 +94,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf("   -- afficher \n");
 				printf("   -- rechercher\n");
 				printf("   -- ajout\n");
+				printf("   -- supprimer\n");
 				printf("    - nbclients \n");
 				printf("    - incomplet \n");
 				printf("    - aide \n");
@@ -96,6 +106,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf("   -- afficher \n");
 				printf("   -- rechercher\n");
 				printf("   -- ajout\n");
+				printf("   -- supprimer\n");
 				printf("    - nbclients \n");
 				printf("    - incomplet \n");
 				printf("    - aide \n");
@@ -114,19 +125,26 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 
 			synt = 0;
 
-			printf(" les différentes commandes rapides sont : \n");
+			printf(" les differentes commandes rapides sont : \n");
 			printf("	- afficher   -> a\n");
 			printf("	- rechercher -> r\n");
 			printf("	- ajout		 -> +\n");
 			printf("	- nbclients  -> nbc\n");
 			printf("	- incomplet  -> c\n");
 			printf("	- fermer     -> f\n");
+			printf("	- effacer    -> s\n");
 
 		}
 
 		if (!strcmp(commande, "rechercher") || !strcmp(commande, "r")) {
 
 			synt = 0;
+		}
+
+		if (!strcmp(commande, "effacer")) {
+			
+			synt = 0;
+			system("cls");
 		}
 
 		if (!strcmp(commande, "incomplet") || !strcmp(commande, "c")) {
@@ -160,7 +178,6 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			}
 
 			printf("\n vous avez bien supprime le tri\n\n");
-
 		}
 
 		if (!strcmp(commande, "tripeigne")) {
@@ -277,17 +294,15 @@ void interfaceaff(REPERTOIRE rep, int* tabind) { //responsable fonction : Guerin
 
 	char arg[100];
 	char filtre[30];
+	char coll[30];
 	int over = 0;
 	int i, m, j = 0;
 	char champsaisi[30];
-	int probleme;
+	int probleme = 0;
 
-	int tabcol[7];
+	int tabcol[7] = {0,0,0,0,0,0,0};
 
-	int tabfiltre[7];
-	for (m = 0; m < 7; m++) {
-		tabfiltre[m] = 1;
-	}
+	int tabfiltre[7] = {0,0,0,0,0,0,0};
 
 	do {
 		probleme = 0;
@@ -297,8 +312,9 @@ void interfaceaff(REPERTOIRE rep, int* tabind) { //responsable fonction : Guerin
 
 		printf(" Colonnes a afficher (enumerer une liste parmis ces choix) : \n");
 		for (i = 0; i < 8; i++) {
-			printf("	- %s\n", TabIntitules[i]);
+			printf(" %s  | ", TabIntitules[i]);
 		}
+		printf("\n");
 
 		printf(" -> entrer une liste de colonnes (valeur par defaut -tout) : ");
 		fgets(arg, 100, stdin);
@@ -341,6 +357,64 @@ void interfaceaff(REPERTOIRE rep, int* tabind) { //responsable fonction : Guerin
 		}
 	} while (probleme == 1);
 	probleme = 0;
+
+	over = 0;
+	i, m, j = 0;
+
+	do {
+		probleme = 0;
+		for (m = 0; m < 7; m++) {
+			tabfiltre[m] = 0;
+		}
+
+		printf(" Colonnes a afficher (enumerer une liste parmis ces choix) : \n");
+		for (i = 0; i < 8; i++) {
+			printf(" %s  | ", TabIntitules[i]);
+		}
+		printf("\n");
+
+		printf(" -> entrer une liste de colonnes sur lesquelles appliquer un filtre (valeur par defaut -tout) : ");
+		fgets(arg, 100, stdin);
+
+		if (arg[0] == '\n') {
+			for (m = 0; m < 7; m++) {
+				tabfiltre[m] = 1;
+			}
+		}
+		else {
+			char* decoupe = arg;
+			do {
+				if (decoupe[0] == '\0') {
+					over = 1;
+				}
+				else {
+					j = 0;
+					while (decoupe[j] != ' ' && decoupe[j] != '\n') {
+						j++;
+					}
+					decoupe[j] = '\0';
+					int champ = numero(decoupe);
+					if (champ == -1) {
+						printf("\n ERREUR SYNTAXE\n\n");
+						probleme = 1;
+						over = 1;
+					}
+					else if (champ == TOUT) {
+						for (m = 0; m < 7; m++) {
+							tabfiltre[m] = 1;
+						}
+						over = 1;
+					}
+					else {
+						tabfiltre[champ] = 1;
+					}
+					decoupe = decoupe + j + 1;
+				}
+			} while (over != 1);
+		}
+	} while (probleme == 1);
+	probleme = 0;
+
 
 	printf(" -> Entrer un filtre a appliquer (valeur par defaut -pas de filtre) : ");
 	fgets(filtre, 30, stdin);

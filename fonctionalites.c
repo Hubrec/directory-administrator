@@ -280,12 +280,13 @@ REPERTOIRE ajout(REPERTOIRE rep) //responsable fonction : Guerin Toinon
 REPERTOIRE suppression(REPERTOIRE rep, int inditem) { // en construction
 
 	
-	rep.clients[inditem] = rep.clients[rep.taille - 1];
+	rep.taille--;
+
+	rep.clients[inditem] = rep.clients[rep.taille];
 
 
 
 	
-	rep.taille--;
 	rep.clients = realloc(rep.clients, sizeof(CLIENT) * rep.taille);
 
 	if (rep.clients == NULL)
@@ -295,9 +296,12 @@ REPERTOIRE suppression(REPERTOIRE rep, int inditem) { // en construction
 		exit(EXIT_FAILURE);
 	}
 
+
 	int j;
 	for (j = 0; j < 7; j++) {
 		rep.tabind[j][inditem] = rep.tabind[j][rep.taille - 1];
+	}
+	for (j = 0; j < 7; j++) {
 		rep.tabind[j] = realloc(rep.tabind[j], sizeof(int) * rep.taille);
 	}
 
