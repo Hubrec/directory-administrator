@@ -827,9 +827,9 @@ int recherche(REPERTOIRE rep, int champ, char* col_recherche) {
 				}
 				else if(strcmp(rep.clients[rep.tabind[champ][milieu]].nom, col_recherche) < 0)
 				{
-					indicedep = milieu;
+					indicedep = milieu+1;
 				}
-				else indicefin = milieu;
+				else indicefin = milieu-1;
 			}
 		break;
 	case VILLE:
@@ -843,9 +843,9 @@ int recherche(REPERTOIRE rep, int champ, char* col_recherche) {
 				}
 				else if(strcmp(rep.clients[rep.tabind[champ][milieu]].ville, col_recherche) < 0)
 				{
-					indicedep = milieu;
+					indicedep = milieu+1;
 				}
-				else indicefin = milieu;
+				else indicefin = milieu-1;
 			}
 		break;
 	case CP:
@@ -859,9 +859,9 @@ int recherche(REPERTOIRE rep, int champ, char* col_recherche) {
 			}
 			else if(strcmp(rep.clients[rep.tabind[champ][milieu]].code_postal, col_recherche) < 0)
 			{
-				indicedep = milieu;
+				indicedep = milieu+1;
 			}
-			else indicefin = milieu;
+			else indicefin = milieu-1;
 		}
 		break;
 	case TEL:
@@ -875,9 +875,9 @@ int recherche(REPERTOIRE rep, int champ, char* col_recherche) {
 			}
 			else if(strcmp(rep.clients[rep.tabind[champ][milieu]].telephone, col_recherche) < 0)
 			{
-				indicedep = milieu;
+				indicedep = milieu+1;
 			}
-			else indicefin = milieu;
+			else indicefin = milieu-1;
 		}
 		break;
 	default:
