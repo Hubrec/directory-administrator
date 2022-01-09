@@ -410,19 +410,21 @@ void InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toinon
 			
 			synt = 0;
 			int index_mot_recherchee;
-			int champ = 0;
+			int champ = 1;
 			char mot_recherchee[50];
+			char col_recherche[50];
 
 			printf("Dans quelle colone voulez vous rechercher ?\n");
 			scanf("%s", &mot_recherchee);
 			champ = numero(mot_recherchee);
 
-			printf("Quel mot recherchez vous\n");
+			printf("Quel mot recherchez vous ?\n");
+			scanf("%s", col_recherche);
 			
 
-			index_mot_recherchee = recherche(rep, champ);
-			if (index_mot_recherchee == -1) printf("null");
-			else printf("%s", rep.clients[rep.tabind[champ][index_mot_recherchee]].prenom);
+			index_mot_recherchee = recherche(rep, champ, col_recherche);
+			if (index_mot_recherchee == -1) printf("null\n");
+			else printf("%s\n", rep.clients[rep.tabind[champ][index_mot_recherchee]].prenom);
 		}
 
 		if (!strcmp(commande, "incomplet") || !strcmp(commande, "c")) {
@@ -783,88 +785,103 @@ void liberte(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 	free(rep.clients);
 }
 
-int recherche(REPERTOIRE rep, int champ) {
+int recherche(REPERTOIRE rep, int champ, char* col_recherche) {
 	int indicedep = 0;
 	int indicefin = rep.taille -1;
 	int milieu;
-	char motrechercher[] = "Leduc";
 	/*if(strcmp(motrechercher, rep.clients[rep.tabind[champ][indicedep]].prenom) < 0 || strcmp(motrechercher, rep.clients[rep.tabind[champ][indicefin]].prenom) > 0)
 	{
 		printf("ok2\n");
 
 		return (-1);
 	}*/
-	while(indicedep < indicefin)
+	printf("%d\n", champ);
+	switch (champ)
 	{
-		milieu = (indicedep + indicefin) / 2;
+	case PRENOM:
+		while(indicedep < indicefin)
+			{
+				milieu = (indicedep + indicefin) / 2;
+				if(strcmp(rep.clients[rep.tabind[champ][milieu]].prenom, col_recherche) == 0)
+				{
+					printf("trouvé");
+					return(milieu);
+				}
+				else if(strcmp(rep.clients[rep.tabind[champ][milieu]].prenom, col_recherche) < 0)
+				{
+					indicedep = milieu+1;
+				}
+				else indicefin = milieu-1;
+			}
+			return(-1);
+		break;
 
-		switch (champ)
+	case NOM:
+		while(indicedep < indicefin)
+			{
+				milieu = (indicedep + indicefin) / 2;
+				if(strcmp(rep.clients[rep.tabind[champ][milieu]].nom, col_recherche) == 0)
+				{
+					printf("trouvé\n");
+					return(milieu);
+				}
+				else if(strcmp(rep.clients[rep.tabind[champ][milieu]].nom, col_recherche) < 0)
+				{
+					indicedep = milieu;
+				}
+				else indicefin = milieu;
+			}
+		break;
+	case VILLE:
+		while(indicedep < indicefin)
+			{
+				milieu = (indicedep + indicefin) / 2;
+				if(strcmp(rep.clients[rep.tabind[champ][milieu]].ville, col_recherche) == 0)
+				{
+					printf("trouvé\n");
+					return(milieu);
+				}
+				else if(strcmp(rep.clients[rep.tabind[champ][milieu]].ville, col_recherche) < 0)
+				{
+					indicedep = milieu;
+				}
+				else indicefin = milieu;
+			}
+		break;
+	case CP:
+		while(indicedep < indicefin)
 		{
-		case PRENOM:
-			if(strcmp(rep.clients[rep.tabind[champ][milieu]].prenom, motrechercher) == 0)
-			{
-				printf("trouvé");
-				return(milieu);
-			}
-			else if(strcmp(rep.clients[rep.tabind[champ][milieu]].prenom, motrechercher) < 0)
-			{
-				indicedep = milieu;
-			}
-			else indicefin = milieu;
-			break;
-
-		case NOM:
-			if(strcmp(rep.clients[rep.tabind[champ][milieu]].nom, motrechercher) == 0)
+			milieu = (indicedep + indicefin) / 2;
+			if(strcmp(rep.clients[rep.tabind[champ][milieu]].code_postal, col_recherche) == 0)
 			{
 				printf("trouvé\n");
 				return(milieu);
 			}
-			else if(strcmp(rep.clients[rep.tabind[champ][milieu]].nom, motrechercher) < 0)
+			else if(strcmp(rep.clients[rep.tabind[champ][milieu]].code_postal, col_recherche) < 0)
 			{
 				indicedep = milieu;
 			}
 			else indicefin = milieu;
-			break;
-		case VILLE:
-			if(strcmp(rep.clients[rep.tabind[champ][milieu]].ville, motrechercher) == 0)
-			{
-				printf("trouvé\n");
-				return(milieu);
-			}
-			else if(strcmp(rep.clients[rep.tabind[champ][milieu]].ville, motrechercher) < 0)
-			{
-				indicedep = milieu;
-			}
-			else indicefin = milieu;
-			break;
-		case CP:
-			if(strcmp(rep.clients[rep.tabind[champ][milieu]].code_postal, motrechercher) == 0)
-			{
-				printf("trouvé\n");
-				return(milieu);
-			}
-			else if(strcmp(rep.clients[rep.tabind[champ][milieu]].code_postal, motrechercher) < 0)
-			{
-				indicedep = milieu;
-			}
-			else indicefin = milieu;
-			break;
-		case TEL:
-			if(strcmp(rep.clients[rep.tabind[champ][milieu]].telephone, motrechercher) == 0)
-			{
-				printf("trouvé\n");
-				return(milieu);
-			}
-			else if(strcmp(rep.clients[rep.tabind[champ][milieu]].telephone, motrechercher) < 0)
-			{
-				indicedep = milieu;
-			}
-			else indicefin = milieu;
-			break;
-		default:
-			break;
 		}
-		
-		
+		break;
+	case TEL:
+		while(indicedep < indicefin)
+		{
+			milieu = (indicedep + indicefin) / 2;
+			if(strcmp(rep.clients[rep.tabind[champ][milieu]].telephone, col_recherche) == 0)
+			{
+				printf("trouve\n");
+				return(milieu);
+			}
+			else if(strcmp(rep.clients[rep.tabind[champ][milieu]].telephone, col_recherche) < 0)
+			{
+				indicedep = milieu;
+			}
+			else indicefin = milieu;
+		}
+		break;
+	default:
+		break;
 	}
+	return -1;
 }

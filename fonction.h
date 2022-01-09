@@ -142,7 +142,7 @@ REPERTOIRE liberte(REPERTOIRE rep);
 *
 */
 REPERTOIRE suppression(REPERTOIRE rep, int inditem);
-int recherche(REPERTOIRE rep, int champ);
+int recherche(REPERTOIRE rep, int champ, char* col_recherche);
 
 /* specification formelle
 *
