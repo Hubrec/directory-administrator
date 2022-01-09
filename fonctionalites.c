@@ -111,64 +111,6 @@ int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int ch
 	return combien;
 }
 
-void Afficher2(REPERTOIRE rep, char* valeur, int tab[]) //responsable fonction : Guerin Toinon
-{
-	int i, v = 0;
-	int valeurInt = numero(valeur);
-	switch (valeurInt)
-	{
-	case PRENOM:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].prenom);
-		}
-		break;
-	case NOM:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].nom);
-		}
-		break;
-	case VILLE:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].ville);
-		}
-		break;
-	case CP:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].code_postal);
-		}
-		break;
-	case TEL:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].telephone);
-		}
-		break;
-	case MAIL:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].email);
-		}
-		break;
-	case PROF:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].profession);
-		}
-		break;
-	case TOUT:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%25s", rep.clients[i].prenom);
-			printf("%25s", rep.clients[i].nom);
-			printf("%25s", rep.clients[i].ville);
-			printf("%10s", rep.clients[i].code_postal);
-			printf("%20s", rep.clients[i].telephone);
-			printf("%45s", rep.clients[i].email);
-			printf("%20s\n", rep.clients[i].profession);
-		}
-		break;
-	default:
-
-		printf("ERREUR SYNTAXE 2\n");
-	}
-}
-
 void triinsertion(REPERTOIRE rep, int champ) //responsable fonction : Guerin Toinon
 {
 	//CLIENT client;
@@ -218,14 +160,13 @@ void tripeigne(REPERTOIRE rep, int champ) //responsable fonction : Guerin Toinon
 	}
 }
 
-REPERTOIRE ajout(REPERTOIRE rep) //responsable fonction : Guerin Toinon
+REPERTOIRE ajout(REPERTOIRE rep, CLIENT c) //responsable fonction : Guerin Toinon
 {
 
 	rep.taille++;
 	rep.clients = realloc(rep.clients, sizeof(CLIENT) * rep.taille);
 
 	if (rep.clients == NULL) {
-		printf(" echec de reallocation\n");
 		free(rep.clients);
 		exit(EXIT_FAILURE);
 	}
@@ -236,44 +177,14 @@ REPERTOIRE ajout(REPERTOIRE rep) //responsable fonction : Guerin Toinon
 		rep.tabind[j][rep.taille - 1] = rep.taille - 1;
 	}
 
-	char buffer[50];
+	rep.clients[rep.taille - 1].prenom = strdup(c.prenom);
+	rep.clients[rep.taille - 1].nom = strdup(c.nom);
+	rep.clients[rep.taille - 1].ville = strdup(c.ville);
+	rep.clients[rep.taille - 1].code_postal = strdup(c.code_postal);
+	rep.clients[rep.taille - 1].telephone = strdup(c.telephone);
+	rep.clients[rep.taille - 1].email = strdup(c.email);
+	rep.clients[rep.taille - 1].profession = strdup(c.profession);
 
-	printf(" -> saisissez le prenom : ");
-	fgets(buffer, 30, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].prenom = strdup(buffer);
-
-	printf(" -> saisissez le nom : ");
-	fgets(buffer, 30, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].nom = strdup(buffer);
-
-	printf(" -> saisissez la ville : ");
-	fgets(buffer, 20, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].ville = strdup(buffer);
-
-	printf(" -> saisissez le code postal : ");
-	fgets(buffer, 10, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].code_postal = strdup(buffer);
-
-	printf(" -> saisissez le numero de telephonne : ");
-	fgets(buffer, 15, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].telephone = strdup(buffer);
-
-	printf(" -> saisissez l'email : ");
-	fgets(buffer, 40, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].email = strdup(buffer);
-
-	printf(" -> saisissez la profession : ");
-	fgets(buffer, 30, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].profession = strdup(buffer);
-
-	printf("\n vous avez ajoute 1 nouveau client\n\n");
 	return rep;
 }
 
@@ -285,9 +196,7 @@ REPERTOIRE suppression(REPERTOIRE rep, int inditem) { // en construction
 
 	rep.clients = realloc(rep.clients, sizeof(CLIENT) * rep.taille);
 
-	if (rep.clients == NULL)
-	{
-		printf(" echec de reallocation\n");
+	if (rep.clients == NULL) {
 		free(rep.clients);
 		exit(EXIT_FAILURE);
 	}
@@ -310,60 +219,35 @@ REPERTOIRE suppression(REPERTOIRE rep, int inditem) { // en construction
 	return rep;
 }
 
-REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[]) {
-	
-	char buffer[50];
+REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[], CLIENT cl) {
 
 	if (tabelement[0] == 1) {
-		printf(" -> valeur actuelle pour le prenom :\" %s \", saisissez son remplacement : ", rep.clients[inditem].prenom);
-		fgets(buffer, 30, stdin);
-		retourchariot(buffer);
-		if (buffer[0] != '\O') rep.clients[inditem].prenom = strdup(buffer);
+		if (cl.prenom[0] != '\O') rep.clients[inditem].prenom = strdup(cl.prenom);
 	}
 
 	if (tabelement[1] == 1) {
-		printf(" -> valeur actuelle pour le nom :\" %s \", saisissez son remplacement : ", rep.clients[inditem].nom);
-		fgets(buffer, 30, stdin);
-		retourchariot(buffer);
-		if (buffer[0] != '\O') rep.clients[inditem].nom = strdup(buffer);
+		if (cl.nom[0] != '\O') rep.clients[inditem].nom = strdup(cl.nom);
 	}
 
 	if (tabelement[2] == 1) {
-		printf(" -> valeur actuelle pour la ville :\" %s \", saisissez son remplacement : ", rep.clients[inditem].ville);
-		fgets(buffer, 20, stdin);
-		retourchariot(buffer);
-		if (buffer[0] != '\O') rep.clients[inditem].ville = strdup(buffer);
+		if (cl.ville[0] != '\O') rep.clients[inditem].ville = strdup(cl.ville);
 	}
 
 	if (tabelement[3] == 1) {
-		printf(" -> valeur actuelle pour le code postal :\" %s \", saisissez son remplacement : ", rep.clients[inditem].code_postal);
-		fgets(buffer, 10, stdin);
-		retourchariot(buffer);
-		if (buffer[0] != '\O') rep.clients[inditem].code_postal = strdup(buffer);
+		if (cl.code_postal[0] != '\O') rep.clients[inditem].code_postal = strdup(cl.code_postal);
 	}
 
 	if (tabelement[4] == 1) {
-		printf(" -> valeur actuelle pour le telephone :\" %s \", saisissez son remplacement : ", rep.clients[inditem].telephone);
-		fgets(buffer, 20, stdin);
-		retourchariot(buffer);
-		if (buffer[0] != '\O') rep.clients[inditem].telephone = strdup(buffer);
+		if (cl.telephone[0] != '\O') rep.clients[inditem].telephone = strdup(cl.telephone);
 	}
 
 	if (tabelement[5] == 1) {
-		printf(" -> valeur actuelle pour le mail :\" %s \", saisissez son remplacement : ", rep.clients[inditem].email);
-		fgets(buffer, 20, stdin);
-		retourchariot(buffer);
-		if (buffer[0] != '\O') rep.clients[inditem].email = strdup(buffer);
+		if (cl.email[0] != '\O') rep.clients[inditem].email = strdup(cl.email);
 	}
 
 	if (tabelement[6] == 1) {
-		printf(" -> valeur actuelle pour la profession :\" %s \", saisissez son remplacement : ", rep.clients[inditem].profession);
-		fgets(buffer, 20, stdin);
-		retourchariot(buffer);
-		if (buffer[0] != '\O') rep.clients[inditem].profession = strdup(buffer);
+		if (cl.profession[0] != '\O') rep.clients[inditem].profession = strdup(cl.profession);
 	}
-
-	printf("\n\n les informations concernant le client ont bien ete prises en compte\n");
 
 	return rep;
 }

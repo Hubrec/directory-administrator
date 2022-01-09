@@ -22,19 +22,143 @@ typedef struct repertoire {
     int ** tabind;   // tableau de tableaux d'indices
 } REPERTOIRE;
 
-REPERTOIRE Importer(char nom_fichier[30]);
-void Afficher2(REPERTOIRE rep, char* valeur, int tabind[]);
-REPERTOIRE InterfaceTerminal(REPERTOIRE rep);
-void triindirecte(REPERTOIRE rep, int champ);
-void tripeigne(REPERTOIRE rep, int champ);
-int numero(char* nom);
-void retourchariot(char* chaine);
-void interfaceaff(REPERTOIRE rep, int* tabind);
-int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int champ);
-REPERTOIRE ajout(REPERTOIRE rep);
-void sauvegarder(REPERTOIRE rep);
-REPERTOIRE liberte(REPERTOIRE rep);
-REPERTOIRE suppression(REPERTOIRE rep, int inditem);
-int compare(CLIENT c1, CLIENT c2, int champ);
-REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[]);
 
+/* specification formelle
+* 
+*   entrée : prends en entrée le nom du fichier
+*   sortie : return la structure REPERTOIRE
+*   précondition : donner le nom d'un fichier qui existe et qui est dans le meme repertoire que le programme
+*   postcondition : rempli avec les informations contenues dans le repertoire par champ le tableau de structure CLIENT clients
+* 
+*/
+REPERTOIRE Importer(char nom_fichier[30]);
+
+/* specification formelle
+*
+*   entrée : la structure REPERTOIRE
+*   sortie : la structure REPERTOIRE
+*   précondition : pas de precondition, il s'agit simplement d'une redirection
+*   postcondition : pas de postcondition, il s'agit simplement d'une redirection
+*
+*/
+REPERTOIRE InterfaceTerminal(REPERTOIRE rep);
+
+/* specification formelle
+*
+*   entrée : la structure REPERTOIRE, l'entier champ
+*   sortie : pas de return
+*   précondition : champ doit etre une valeur contenue entre 0 et 6
+*   postcondition : renvoi le tableau tabind dans REPERTOIRE dans l'odre trié de l'annuaire pour le champ entré
+*
+*/
+void triiinsertion(REPERTOIRE rep, int champ);
+
+/* specification formelle
+*
+*   entrée : la structure REPERTOIRE, l'entier champ
+*   sortie : pas de return
+*   précondition : champ doit etre une valeur contenue entre 0 et 6
+*   postcondition : renvoi le tableau tabind dans REPERTOIRE dans l'odre trié de l'annuaire pour le champ entré
+*
+*/
+void tripeigne(REPERTOIRE rep, int champ);
+
+/* specification formelle
+*
+*   entrée : 
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+int numero(char* nom);
+
+/* specification formelle
+*
+*   entrée : 
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+void retourchariot(char* chaine);
+
+/* specification formelle
+*
+*   entrée : 
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+void interfaceaff(REPERTOIRE rep, int* tabind);
+
+/* specification formelle
+*
+*   entrée : 
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int champ);
+
+/* specification formelle
+*
+*   entrée : 
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+REPERTOIRE ajout(REPERTOIRE rep, CLIENT c);
+
+/* specification formelle
+*
+*   entrée : 
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+void sauvegarder(REPERTOIRE rep);
+
+/* specification formelle
+*
+*   entrée : 
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+REPERTOIRE liberte(REPERTOIRE rep);
+
+/* specification formelle
+*
+*   entrée : 
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+REPERTOIRE suppression(REPERTOIRE rep, int inditem);
+
+/* specification formelle
+*
+*   entrée : 
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+int compare(CLIENT c1, CLIENT c2, int champ);
+
+/* specification formelle
+*
+*   entrée : 
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[], CLIENT cl);
