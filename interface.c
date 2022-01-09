@@ -71,6 +71,83 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			}
 		}
 
+		if (!strcmp(commande, "modifier") || !strcmp(commande, "*")) {
+			
+			synt = 0;
+			int item;
+			printf(" -> selectionner un numero (temporaire) : ");
+			int retour = scanf("%d", &item);
+			retour = getchar();
+
+			int tabelement[7] = { 0,0,0,0,0,0,0 };
+			char elements[100];
+			int m,j;
+			int probleme = 0;
+			int over = 0;
+
+			do {
+				probleme = 0;
+				for (m = 0; m < 7; m++) {
+					tabelement[m] = 0;
+				}
+
+				int i;
+				for (i = 0; i < 8; i++) {
+					printf(" %s  | ", TabIntitules[i]);
+				}
+				printf("\n\n");
+
+				printf(" -> entrez la liste d'elements que vous shouaitez modifier (valeur par fefaut -tout) : ");
+				fgets(elements, 100, stdin);
+
+				if (elements[0] == '\n') {
+					for (m = 0; m < 7; m++) {
+						tabelement[m] = 1;
+					}
+				}
+				else {
+					char* decoupe = elements;
+					do {
+						if (decoupe[0] == '\0') {
+							over = 1;
+						}
+						else {
+							j = 0;
+							while (decoupe[j] != ' ' && decoupe[j] != '\n') {
+								j++;
+							}
+							decoupe[j] = '\0';
+							int champ = numero(decoupe);
+							if (champ == -1) {
+								printf("\n ERREUR SYNTAXE\n\n");
+								probleme = 1;
+								over = 1;
+							}
+							else if (champ == TOUT) {
+								for (m = 0; m < 7; m++) {
+									tabelement[m] = 1;
+								}
+								over = 1;
+							}
+							else {
+								tabelement[champ] = 1;
+							}
+							decoupe = decoupe + j + 1;
+						}
+					} while (over != 1);
+				}
+			} while (probleme == 1);
+
+			printf(" tips : si vous ne voulez plus modifier tapez simplement entree\n\n");
+
+			rep = modifier(rep, item, tabelement);
+
+			int k;
+			for (k = 0; k < 7; k++) {
+				triinsertion(rep, k);
+			}
+		}
+
 		if (!strcmp(commande, "show"))
 		{
 			if (show == 0) {

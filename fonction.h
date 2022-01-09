@@ -35,4 +35,6 @@ REPERTOIRE ajout(REPERTOIRE rep);
 void sauvegarder(REPERTOIRE rep);
 REPERTOIRE liberte(REPERTOIRE rep);
 REPERTOIRE suppression(REPERTOIRE rep, int inditem);
+int compare(CLIENT c1, CLIENT c2, int champ);
+REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[]);
 
