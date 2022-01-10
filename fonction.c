@@ -788,7 +788,7 @@ void liberte(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 int recherche(REPERTOIRE rep, int champ, char* col_recherche) {
 	int indicedep = 0;
 	int indicefin = rep.taille -1;
-	int milieu;
+	int milieu = -1;
 	/*if(strcmp(motrechercher, rep.clients[rep.tabind[champ][indicedep]].prenom) < 0 || strcmp(motrechercher, rep.clients[rep.tabind[champ][indicefin]].prenom) > 0)
 	{
 		printf("ok2\n");
@@ -804,7 +804,13 @@ int recherche(REPERTOIRE rep, int champ, char* col_recherche) {
 				milieu = (indicedep + indicefin) / 2;
 				if(strcmp(rep.clients[rep.tabind[champ][milieu]].prenom, col_recherche) == 0)
 				{
-					printf("trouvé");
+					printf("Des résultats ont été trouvés\n");
+					if(strcmp(rep.clients[rep.tabind[champ][milieu-1]].prenom, col_recherche) == 0 | strcmp(rep.clients[rep.tabind[champ][milieu+1]].prenom, col_recherche) == 0)
+					{
+						printf("Il y a plusieurs résultats suite a votre recherche\n");
+						printf("Voulez-vous : \n 1 : Afficher \n 2 : rechercher parmis les résultats \n\n Tapez le chiffre correspondant");
+					}
+
 					return(milieu);
 				}
 				else if(strcmp(rep.clients[rep.tabind[champ][milieu]].prenom, col_recherche) < 0)
@@ -822,7 +828,7 @@ int recherche(REPERTOIRE rep, int champ, char* col_recherche) {
 				milieu = (indicedep + indicefin) / 2;
 				if(strcmp(rep.clients[rep.tabind[champ][milieu]].nom, col_recherche) == 0)
 				{
-					printf("trouvé\n");
+					printf("trouve\n");
 					return(milieu);
 				}
 				else if(strcmp(rep.clients[rep.tabind[champ][milieu]].nom, col_recherche) < 0)
@@ -838,7 +844,7 @@ int recherche(REPERTOIRE rep, int champ, char* col_recherche) {
 				milieu = (indicedep + indicefin) / 2;
 				if(strcmp(rep.clients[rep.tabind[champ][milieu]].ville, col_recherche) == 0)
 				{
-					printf("trouvé\n");
+					printf("trouve\n");
 					return(milieu);
 				}
 				else if(strcmp(rep.clients[rep.tabind[champ][milieu]].ville, col_recherche) < 0)
@@ -854,7 +860,7 @@ int recherche(REPERTOIRE rep, int champ, char* col_recherche) {
 			milieu = (indicedep + indicefin) / 2;
 			if(strcmp(rep.clients[rep.tabind[champ][milieu]].code_postal, col_recherche) == 0)
 			{
-				printf("trouvé\n");
+				printf("trouve\n");
 				return(milieu);
 			}
 			else if(strcmp(rep.clients[rep.tabind[champ][milieu]].code_postal, col_recherche) < 0)
