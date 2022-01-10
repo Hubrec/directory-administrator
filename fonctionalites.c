@@ -5,7 +5,7 @@
 #include "fonction.h"
 
 const char* TabIntitules[8] = { "prenom","nom","ville","codepostal","telephone","email","profession","tout" };
-const int espacement[] = { 25,25,25,10,20,45,20 };
+const int espacement[] = { 25,30,25,10,20,45,20 };
 
 
 int numero(char* nom) {
@@ -54,12 +54,17 @@ char* RecupereChamp(CLIENT client, int numerochamp) { //responsable fonction : G
 			return(client.profession);
 			break;
 	}
+	return NULL;
 }
 
 int compare(CLIENT c1, CLIENT c2, int champ) { //responsable fonction : Guerin Toinon
+	int resultat;
 	switch (champ) {
 		case NOM:
-			return strcmp(c1.nom, c2.nom);
+			resultat = strcmp(c1.nom, c2.nom);
+			if (resultat)
+				return resultat;
+			return strcmp(c1.prenom, c2.prenom);
 		case PRENOM:
 			return strcmp(c1.prenom, c2.prenom);
 		case VILLE:
@@ -72,6 +77,7 @@ int compare(CLIENT c1, CLIENT c2, int champ) { //responsable fonction : Guerin T
 			return strcmp(c1.email, c2.email);
 		case PROF:
 			return strcmp(c1.profession, c2.profession);
+			
 	}
 	return -1;
 }
@@ -108,64 +114,6 @@ int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int ch
 		}
 	}
 	return combien;
-}
-
-void Afficher2(REPERTOIRE rep, char* valeur, int tab[]) //responsable fonction : Guerin Toinon
-{
-	int i, v = 0;
-	int valeurInt = numero(valeur);
-	switch (valeurInt)
-	{
-	case PRENOM:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].prenom);
-		}
-		break;
-	case NOM:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].nom);
-		}
-		break;
-	case VILLE:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].ville);
-		}
-		break;
-	case CP:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].code_postal);
-		}
-		break;
-	case TEL:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].telephone);
-		}
-		break;
-	case MAIL:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].email);
-		}
-		break;
-	case PROF:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%s \n", rep.clients[tab[i]].profession);
-		}
-		break;
-	case TOUT:
-		for (i = 0; i < rep.taille; i++) {
-			printf("%25s", rep.clients[i].prenom);
-			printf("%25s", rep.clients[i].nom);
-			printf("%25s", rep.clients[i].ville);
-			printf("%10s", rep.clients[i].code_postal);
-			printf("%20s", rep.clients[i].telephone);
-			printf("%45s", rep.clients[i].email);
-			printf("%20s\n", rep.clients[i].profession);
-		}
-		break;
-	default:
-
-		printf("ERREUR SYNTAXE 2\n");
-	}
 }
 
 void triinsertion(REPERTOIRE rep, int champ) //responsable fonction : Guerin Toinon
@@ -217,15 +165,13 @@ void tripeigne(REPERTOIRE rep, int champ) //responsable fonction : Guerin Toinon
 	}
 }
 
-REPERTOIRE ajout(REPERTOIRE rep) //responsable fonction : Guerin Toinon
+REPERTOIRE ajout(REPERTOIRE rep, CLIENT c) //responsable fonction : Guerin Toinon
 {
 
 	rep.taille++;
 	rep.clients = realloc(rep.clients, sizeof(CLIENT) * rep.taille);
 
-	if (rep.clients == NULL)
-	{
-		printf(" echec de reallocation\n");
+	if (rep.clients == NULL) {
 		free(rep.clients);
 		exit(EXIT_FAILURE);
 	}
@@ -236,70 +182,109 @@ REPERTOIRE ajout(REPERTOIRE rep) //responsable fonction : Guerin Toinon
 		rep.tabind[j][rep.taille - 1] = rep.taille - 1;
 	}
 
-	char buffer[50];
+	rep.clients[rep.taille - 1].prenom = strdup(c.prenom);
+	rep.clients[rep.taille - 1].nom = strdup(c.nom);
+	rep.clients[rep.taille - 1].ville = strdup(c.ville);
+	rep.clients[rep.taille - 1].code_postal = strdup(c.code_postal);
+	rep.clients[rep.taille - 1].telephone = strdup(c.telephone);
+	rep.clients[rep.taille - 1].email = strdup(c.email);
+	rep.clients[rep.taille - 1].profession = strdup(c.profession);
 
-	printf(" -> saisissez le prenom : ");
-	fgets(buffer, 30, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].prenom = strdup(buffer);
-
-	printf(" -> saisissez le nom : ");
-	fgets(buffer, 30, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].nom = strdup(buffer);
-
-	printf(" -> saisissez la ville : ");
-	fgets(buffer, 20, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].ville = strdup(buffer);
-
-	printf(" -> saisissez le code postal : ");
-	fgets(buffer, 10, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].code_postal = strdup(buffer);
-
-	printf(" -> saisissez le numero de telephonne : ");
-	fgets(buffer, 15, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].telephone = strdup(buffer);
-
-	printf(" -> saisissez l'email : ");
-	fgets(buffer, 40, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].email = strdup(buffer);
-
-	printf(" -> saisissez la profession : ");
-	fgets(buffer, 30, stdin);
-	retourchariot(buffer);
-	rep.clients[rep.taille - 1].profession = strdup(buffer);
-
-	printf("\n vous avez ajoute 1 nouveau client\n\n");
 	return rep;
 }
 
 REPERTOIRE suppression(REPERTOIRE rep, int inditem) { // en construction
 
 	
-	rep.clients[inditem] = rep.clients[rep.taille - 1];
-
-
-
-	
 	rep.taille--;
+	rep.clients[inditem] = rep.clients[rep.taille];
+
 	rep.clients = realloc(rep.clients, sizeof(CLIENT) * rep.taille);
 
-	if (rep.clients == NULL)
-	{
-		printf(" echec de reallocation\n");
+	if (rep.clients == NULL) {
 		free(rep.clients);
 		exit(EXIT_FAILURE);
 	}
 
 	int j;
 	for (j = 0; j < 7; j++) {
-		rep.tabind[j][inditem] = rep.tabind[j][rep.taille - 1];
 		rep.tabind[j] = realloc(rep.tabind[j], sizeof(int) * rep.taille);
+	}
+
+	int i;
+	for (i = 0; i < 7; i++) {
+		for (j = 0; j < rep.taille; j++)
+			rep.tabind[i][j] = j;
+	}
+
+	for (i = 0; i < 7; i++) {
+		tripeigne(rep, i);
 	}
 
 	return rep;
 }
+
+REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[], CLIENT cl) {
+
+	if (tabelement[0] == 1) {
+		if (cl.prenom[0] != '\O') rep.clients[inditem].prenom = strdup(cl.prenom);
+	}
+
+	if (tabelement[1] == 1) {
+		if (cl.nom[0] != '\O') rep.clients[inditem].nom = strdup(cl.nom);
+	}
+
+	if (tabelement[2] == 1) {
+		if (cl.ville[0] != '\O') rep.clients[inditem].ville = strdup(cl.ville);
+	}
+
+	if (tabelement[3] == 1) {
+		if (cl.code_postal[0] != '\O') rep.clients[inditem].code_postal = strdup(cl.code_postal);
+	}
+
+	if (tabelement[4] == 1) {
+		if (cl.telephone[0] != '\O') rep.clients[inditem].telephone = strdup(cl.telephone);
+	}
+
+	if (tabelement[5] == 1) {
+		if (cl.email[0] != '\O') rep.clients[inditem].email = strdup(cl.email);
+	}
+
+	if (tabelement[6] == 1) {
+		if (cl.profession[0] != '\O') rep.clients[inditem].profession = strdup(cl.profession);
+	}
+
+	return rep;
+}
+
+int recherche(REPERTOIRE rep, CLIENT c, int * dernier) {
+
+	int indicedep = 0;
+	int indicefin = rep.taille - 1;
+	int milieu = rep.taille / 2;
+
+	while (indicedep < indicefin)
+	{
+		milieu = (indicedep + indicefin) / 2;
+		if (compare(rep.clients[rep.tabind[NOM][milieu]], c, NOM) == 0) {
+			int premier = milieu;
+			while (premier>=0 && compare(rep.clients[rep.tabind[NOM][premier]], c, NOM) == 0) {
+				premier--;
+			}
+			premier++;
+			*dernier = premier + 1;
+			while (*dernier < rep.taille && compare(rep.clients[rep.tabind[NOM][*dernier]], c, NOM) == 0) {
+				(*dernier)++;
+			}
+			(*dernier)--;
+			return(premier);
+		}
+		else if (compare(rep.clients[rep.tabind[NOM][milieu]], c, NOM) < 0)
+		{
+			indicedep = milieu + 1;
+		}
+		else indicefin = milieu - 1;
+	}
+	return(-1);
+}
+
