@@ -58,9 +58,13 @@ char* RecupereChamp(CLIENT client, int numerochamp) { //responsable fonction : G
 }
 
 int compare(CLIENT c1, CLIENT c2, int champ) { //responsable fonction : Guerin Toinon
+	int resultat;
 	switch (champ) {
 		case NOM:
-			return strcmp(c1.nom, c2.nom);
+			resultat = strcmp(c1.nom, c2.nom);
+			if (resultat)
+				return resultat;
+			return strcmp(c1.prenom, c2.prenom);
 		case PRENOM:
 			return strcmp(c1.prenom, c2.prenom);
 		case VILLE:
@@ -73,6 +77,7 @@ int compare(CLIENT c1, CLIENT c2, int champ) { //responsable fonction : Guerin T
 			return strcmp(c1.email, c2.email);
 		case PROF:
 			return strcmp(c1.profession, c2.profession);
+			
 	}
 	return -1;
 }
@@ -251,3 +256,35 @@ REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[], CLIENT cl) {
 
 	return rep;
 }
+
+int recherche(REPERTOIRE rep, CLIENT c, int * dernier) {
+
+	int indicedep = 0;
+	int indicefin = rep.taille - 1;
+	int milieu = rep.taille / 2;
+
+	while (indicedep < indicefin)
+	{
+		milieu = (indicedep + indicefin) / 2;
+		if (compare(rep.clients[rep.tabind[NOM][milieu]], c, NOM) == 0) {
+			int premier = milieu;
+			while (premier>=0 && compare(rep.clients[rep.tabind[NOM][premier]], c, NOM) == 0) {
+				premier--;
+			}
+			premier++;
+			*dernier = premier + 1;
+			while (*dernier < rep.taille && compare(rep.clients[rep.tabind[NOM][*dernier]], c, NOM) == 0) {
+				(*dernier)++;
+			}
+			(*dernier)--;
+			return(premier);
+		}
+		else if (compare(rep.clients[rep.tabind[NOM][milieu]], c, NOM) < 0)
+		{
+			indicedep = milieu + 1;
+		}
+		else indicefin = milieu - 1;
+	}
+	return(-1);
+}
+

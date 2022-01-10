@@ -22,7 +22,6 @@ typedef struct repertoire {
     int ** tabind;   // tableau de tableaux d'indices
 } REPERTOIRE;
 
-
 /* specification formelle
 * 
 *   entrée : prends en entrée le nom du fichier
@@ -91,7 +90,7 @@ void retourchariot(char* chaine);
 *   postcondition :
 *
 */
-void interfaceaff(REPERTOIRE rep, int* tabind);
+void interfaceaff(REPERTOIRE rep);
 
 /* specification formelle
 *
@@ -162,3 +161,33 @@ int compare(CLIENT c1, CLIENT c2, int champ);
 *
 */
 REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[], CLIENT cl);
+
+/* specification formelle
+*
+*   entrée :
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+int recherche(REPERTOIRE rep, CLIENT c, int* dernier);
+
+/* specification formelle
+*
+*   entrée :
+*   sortie :
+*   précondition :
+*   postcondition :
+*
+*/
+char* RecupereChamp(CLIENT client, int numerochamp);
+
+/* specification formelle
+*
+*   entrée : 
+*   sortie : 
+*   précondition : 
+*   postcondition : 
+*
+*/
+void interfacemodiff(REPERTOIRE rep, int item);

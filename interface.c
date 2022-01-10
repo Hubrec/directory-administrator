@@ -9,11 +9,10 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 	int fin = 0;
 	char commande[20];
 	char arg[20];
-	int* tabind;
 	int show = 0;
 	CLIENT client;
 
-	tabind = malloc(sizeof(int) * rep.taille);
+	/*tabind = malloc(sizeof(int) * rep.taille);*/
 
 	printf("\n Bienvenu sur \"Annuaire 2000\" \n");
 	printf("\n (taper \"aide\" pour afficher les commandes disponibles) \n\n");
@@ -36,7 +35,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 
 		if (!strcmp(commande, "afficher") || !strcmp(commande, "a")) {
 			synt = 0;
-			interfaceaff(rep, tabind); // on renvoi dans une nouvelle fct interface car ca va etre une grosse interface
+			interfaceaff(rep); // on renvoi dans une nouvelle fct interface car ca va etre une grosse interface
 		}
 
 		if (!strcmp(commande, "nbclients") || !strcmp(commande, "nbc")) {
@@ -95,156 +94,6 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			}
 		}
 
-		if (!strcmp(commande, "supprimer") || !strcmp(commande, "-")) {
-
-			synt = 0;
-			int item;
-
-			printf(" -> selectionner un numero (temporaire) : ");
-			int retour = scanf("%d", &item);
-			retour = getchar();
-
-			rep = suppression(rep,item);
-
-			int k;
-			for (k = 0; k < 7; k++) {
-				triinsertion(rep, k);
-			}
-		}
-
-		if (!strcmp(commande, "modifier") || !strcmp(commande, "*")) {
-			
-			synt = 0;
-			int item;
-			printf(" -> selectionner un numero (temporaire) : ");
-			int retour = scanf("%d", &item);
-			retour = getchar();
-			printf("\n");
-
-			int tabelement[7] = { 0,0,0,0,0,0,0 };
-			char elements[100];
-			int m,j;
-			int probleme = 0;
-			int over = 0;
-
-				int i;
-				for (i = 0; i < 8; i++) {
-					printf(" %s  | ", TabIntitules[i]);
-				}
-
-			do {
-				probleme = 0;
-				for (m = 0; m < 7; m++) {
-					tabelement[m] = 0;
-				}
-
-
-				printf("\n\n");
-				printf(" -> entrez la liste d'elements que vous shouaitez modifier (valeur par fefaut -tout) : ");
-				fgets(elements, 100, stdin);
-
-				if (elements[0] == '\n') {
-					for (m = 0; m < 7; m++) {
-						tabelement[m] = 1;
-					}
-				}
-				else {
-					char* decoupe = elements;
-					do {
-						if (decoupe[0] == '\0') {
-							over = 1;
-						}
-						else {
-							j = 0;
-							while (decoupe[j] != ' ' && decoupe[j] != '\n') {
-								j++;
-							}
-							decoupe[j] = '\0';
-							int champ = numero(decoupe);
-							if (champ == -1) {
-								printf("\n ERREUR SYNTAXE\n\n");
-								probleme = 1;
-								over = 1;
-							}
-							else if (champ == TOUT) {
-								for (m = 0; m < 7; m++) {
-									tabelement[m] = 1;
-								}
-								over = 1;
-							}
-							else {
-								tabelement[champ] = 1;
-							}
-							decoupe = decoupe + j + 1;
-						}
-					} while (over != 1);
-				}
-			} while (probleme == 1);
-
-			printf(" tips : si vous ne voulez plus modifier tapez simplement entree\n\n");
-
-			char buffer[50];
-			CLIENT cl;
-
-			if (tabelement[0] == 1) {
-				printf(" -> valeur actuelle pour le prenom : \"%s\", saisissez son remplacement : ", rep.clients[item].prenom);
-				fgets(buffer, 30, stdin);
-				retourchariot(buffer);
-				cl.prenom = strdup(buffer);
-			}
-
-			if (tabelement[1] == 1) {
-				printf(" -> valeur actuelle pour le nom : \"%s\", saisissez son remplacement : ", rep.clients[item].nom);
-				fgets(buffer, 30, stdin);
-				retourchariot(buffer);
-				cl.nom = strdup(buffer);
-			}
-
-			if (tabelement[2] == 1) {
-				printf(" -> valeur actuelle pour la ville : \"%s\", saisissez son remplacement : ", rep.clients[item].ville);
-				fgets(buffer, 20, stdin);
-				retourchariot(buffer);
-				cl.ville = strdup(buffer);
-			}
-
-			if (tabelement[3] == 1) {
-				printf(" -> valeur actuelle pour le code postal : \"%s\", saisissez son remplacement : ", rep.clients[item].code_postal);
-				fgets(buffer, 10, stdin);
-				retourchariot(buffer);
-				cl.code_postal = strdup(buffer);
-			}
-
-			if (tabelement[4] == 1) {
-				printf(" -> valeur actuelle pour le telephone : \"%s\", saisissez son remplacement : ", rep.clients[item].telephone);
-				fgets(buffer, 20, stdin);
-				retourchariot(buffer);
-				cl.telephone = strdup(buffer);
-			}
-
-			if (tabelement[5] == 1) {
-				printf(" -> valeur actuelle pour le mail : \"%s\", saisissez son remplacement : ", rep.clients[item].email);
-				fgets(buffer, 20, stdin);
-				retourchariot(buffer);
-				cl.email = strdup(buffer);
-			}
-
-			if (tabelement[6] == 1) {
-				printf(" -> valeur actuelle pour la profession : \"%s\", saisissez son remplacement : ", rep.clients[item].profession);
-				fgets(buffer, 20, stdin);
-				retourchariot(buffer);
-				cl.profession = strdup(buffer);
-			}
-
-			rep = modifier(rep, item, tabelement, cl);
-
-			printf("\n\n les informations concernant le client ont bien ete prises en compte\n");
-
-			int k;
-			for (k = 0; k < 7; k++) {
-				triinsertion(rep, k);
-			}
-		}
-
 		if (!strcmp(commande, "show"))
 		{
 			synt = 0;
@@ -278,8 +127,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf("   -- afficher \n");
 				printf("   -- rechercher\n");
 				printf("   -- ajout\n");
-				printf("   -- supprimer\n");
-				printf("   -- modifier\n");
+				printf("   -- rechercher\n");
 				printf("    - nbclients \n");
 				printf("    - incomplet \n");
 				printf("    - aide \n");
@@ -291,8 +139,9 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf("   -- afficher \n");
 				printf("   -- rechercher\n");
 				printf("   -- ajout\n");
-				printf("   -- supprimer\n");
-				printf("   -- modifier\n");
+				printf("   -- rechercher\n");
+				printf("		- supprimer\n");
+				printf("		- modifier\n");
 				printf("    - nbclients \n");
 				printf("    - incomplet \n");
 				printf("    - aide \n");
@@ -319,12 +168,6 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			printf("	- incomplet  -> c\n");
 			printf("	- fermer     -> f\n");
 			printf("	- effacer    -> e\n");
-
-		}
-
-		if (!strcmp(commande, "rechercher") || !strcmp(commande, "r")) {
-
-			synt = 0;
 		}
 
 		if (!strcmp(commande, "effacer") || !strcmp(commande, "e")) {
@@ -365,6 +208,89 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 
 			printf("\n vous avez bien supprime le tri\n\n");
 		}
+
+		if (!strcmp(commande, "rechercher") || !strcmp(commande, "r")) {
+		
+			synt = 0;
+			CLIENT cl;
+			char buffer[50];
+			int dernier;
+			int premier;
+			int choix;
+
+			printf(" -> Entrez le nom du client que vous recherchez : ");
+			fgets(buffer, 30, stdin);
+			retourchariot(buffer);
+			cl.nom = strdup(buffer);
+
+			printf(" -> Entrez le prenom du client que vous recherchez : ");
+			fgets(buffer, 30, stdin);
+			retourchariot(buffer);
+			cl.prenom = strdup(buffer);
+
+			premier = recherche(rep, cl, &dernier);
+
+
+			if (premier == -1) {
+
+				printf(" pas de clients trouves\n");
+			}
+			else if (premier == dernier) {
+				int i;
+				for (i = 0; i < 7; i++) {
+					printf(" %s  | ", RecupereChamp(rep.clients[rep.tabind[NOM][premier]], i));
+				}
+				printf("\n");
+
+				choix = rep.tabind[NOM][premier];
+			}
+			else if (premier < dernier) {
+				int j;
+				for (j = premier; j <= dernier;j++) {
+					int i;
+					printf(" - client %d : ",j-premier+1);
+					for (i = 0; i < 7; i++) {
+						printf(" %s  | ", RecupereChamp(rep.clients[rep.tabind[NOM][j]], i));
+					}
+					printf("\n");
+				}
+
+				printf(" -> saisissez lequel choisir (son numero) : ");
+				int retour = scanf("%d", &choix);
+				retour = getchar();
+
+				choix = rep.tabind[NOM][choix -1 + premier];
+			}
+			printf("\n");
+
+			if (premier != -1) {
+				char commande[10];
+				printf(" -> vous pouvez desormais modifier / supprimer ce client (valeur par defaut -ne rien faire) : ");
+				fgets(commande, 10, stdin);
+				retourchariot(commande);
+
+				if (commande[0] == '\0') {
+					printf(" abandon de la recherche\n");
+				}
+				else if (!strcmp(commande, "modifier") || !strcmp(commande, "*")) {
+
+					interfacemodiff(rep, choix);
+				}
+				else if (!strcmp(commande, "supprimer") || !strcmp(commande, "-")) {
+
+					synt = 0;
+
+					rep = suppression(rep, choix);
+
+					int k;
+					for (k = 0; k < 7; k++) {
+						triinsertion(rep, k);
+					}
+				}
+				printf("\n");
+			}
+		}
+
 
 		if (!strcmp(commande, "tripeigne")) {
 
@@ -458,7 +384,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 	return rep;
 }
 
-void interfaceaff(REPERTOIRE rep, int* tabind) { //responsable fonction : Guerin Toinon
+void interfaceaff(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 
 
 	char arg[100];
@@ -603,5 +529,130 @@ void interfaceaff(REPERTOIRE rep, int* tabind) { //responsable fonction : Guerin
 	int val = Afficher(rep, tabcol, tabfiltre, filtre, lechamp);
 
 	printf("\n vous avez affiche %d client(s)\n\n", val);
+}
 
+void interfacemodiff(REPERTOIRE rep, int item) {
+
+	int tabelement[7] = { 0,0,0,0,0,0,0 };
+	char elements[100];
+	int m, j;
+	int probleme = 0;
+	int over = 0;
+
+	int i;
+	for (i = 0; i < 8; i++) {
+		printf(" %s  | ", TabIntitules[i]);
+	}
+
+	do {
+		probleme = 0;
+		for (m = 0; m < 7; m++) {
+			tabelement[m] = 0;
+		}
+
+
+		printf("\n\n");
+		printf(" -> entrez la liste d'elements que vous shouaitez modifier (valeur par fefaut -tout) : ");
+		fgets(elements, 100, stdin);
+
+		if (elements[0] == '\n') {
+			for (m = 0; m < 7; m++) {
+				tabelement[m] = 1;
+			}
+		}
+		else {
+			char* decoupe = elements;
+			do {
+				if (decoupe[0] == '\0') {
+					over = 1;
+				}
+				else {
+					j = 0;
+					while (decoupe[j] != ' ' && decoupe[j] != '\n') {
+						j++;
+					}
+					decoupe[j] = '\0';
+					int champ = numero(decoupe);
+					if (champ == -1) {
+						printf("\n ERREUR SYNTAXE\n\n");
+						probleme = 1;
+						over = 1;
+					}
+					else if (champ == TOUT) {
+						for (m = 0; m < 7; m++) {
+							tabelement[m] = 1;
+						}
+						over = 1;
+					}
+					else {
+						tabelement[champ] = 1;
+					}
+					decoupe = decoupe + j + 1;
+				}
+			} while (over != 1);
+		}
+	} while (probleme == 1);
+
+	printf(" tips : si vous ne voulez plus modifier tapez simplement entree\n\n");
+
+	char buffer[50];
+	CLIENT cl;
+
+	if (tabelement[0] == 1) {
+		printf(" -> valeur actuelle pour le prenom : \"%s\", saisissez son remplacement : ", rep.clients[item].prenom);
+		fgets(buffer, 30, stdin);
+		retourchariot(buffer);
+		cl.prenom = strdup(buffer);
+	}
+
+	if (tabelement[1] == 1) {
+		printf(" -> valeur actuelle pour le nom : \"%s\", saisissez son remplacement : ", rep.clients[item].nom);
+		fgets(buffer, 30, stdin);
+		retourchariot(buffer);
+		cl.nom = strdup(buffer);
+	}
+
+	if (tabelement[2] == 1) {
+		printf(" -> valeur actuelle pour la ville : \"%s\", saisissez son remplacement : ", rep.clients[item].ville);
+		fgets(buffer, 20, stdin);
+		retourchariot(buffer);
+		cl.ville = strdup(buffer);
+	}
+
+	if (tabelement[3] == 1) {
+		printf(" -> valeur actuelle pour le code postal : \"%s\", saisissez son remplacement : ", rep.clients[item].code_postal);
+		fgets(buffer, 10, stdin);
+		retourchariot(buffer);
+		cl.code_postal = strdup(buffer);
+	}
+
+	if (tabelement[4] == 1) {
+		printf(" -> valeur actuelle pour le telephone : \"%s\", saisissez son remplacement : ", rep.clients[item].telephone);
+		fgets(buffer, 20, stdin);
+		retourchariot(buffer);
+		cl.telephone = strdup(buffer);
+	}
+
+	if (tabelement[5] == 1) {
+		printf(" -> valeur actuelle pour le mail : \"%s\", saisissez son remplacement : ", rep.clients[item].email);
+		fgets(buffer, 20, stdin);
+		retourchariot(buffer);
+		cl.email = strdup(buffer);
+	}
+
+	if (tabelement[6] == 1) {
+		printf(" -> valeur actuelle pour la profession : \"%s\", saisissez son remplacement : ", rep.clients[item].profession);
+		fgets(buffer, 20, stdin);
+		retourchariot(buffer);
+		cl.profession = strdup(buffer);
+	}
+
+	rep = modifier(rep, item, tabelement, cl);
+
+	printf("\n\n les informations concernant %s ont bien ete prises en compte\n", rep.clients[item].prenom);
+
+	int k;
+	for (k = 0; k < 7; k++) {
+		triinsertion(rep, k);
+	}
 }
