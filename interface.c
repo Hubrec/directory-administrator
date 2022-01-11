@@ -260,10 +260,11 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			}
 			else if (premier == dernier) {
 				int i;
+				printf("\n");
 				for (i = 0; i < 7; i++) {
 					printf(" %s  | ", RecupereChamp(rep.clients[rep.tabind[NOM][premier]], i));
 				}
-				printf("\n\n");
+				printf("\n");
 
 				choix = rep.tabind[NOM][premier];
 			}
@@ -592,7 +593,7 @@ void interfacemodiff(REPERTOIRE rep, int item) {
 	}
 	printf("\n");
 	for (i = 0; i < 7; i++) {
-		printf(" %s  | ", RecupereChamp(rep.clients[rep.tabind[NOM][item]], i));
+		printf(" %s  | ", RecupereChamp(rep.clients[item], i));
 	}
 
 	do {
