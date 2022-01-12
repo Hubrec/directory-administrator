@@ -75,10 +75,10 @@ int numero(char* nom);
 
 /* specification formelle
 *
-*   entr�e : 
-*   sortie :
-*   pr�condition :
-*   postcondition :
+*   entr�e : une chaine de caractère
+*   sortie : pas de return
+*   pr�condition : la chaine de caractère ne doit pas être vide
+*   postcondition : renvoie la chaine de caractère sans le caractère de retour à la ligne
 *
 */
 void retourchariot(char* chaine);
@@ -105,20 +105,20 @@ int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int ch
 
 /* specification formelle
 *
-*   entr�e : 
-*   sortie :
+*   entr�e : la structure répertoire et la structure client
+*   sortie : la structure répertoire 
 *   pr�condition :
-*   postcondition :
+*   postcondition : renvoie la structure repertoire avec une case en plus, soit un client 
 *
 */
 REPERTOIRE ajout(REPERTOIRE rep, CLIENT c);
 
 /* specification formelle
 *
-*   entr�e : 
-*   sortie :
+*   entr�e : la structure répertoire
+*   sortie : pas de sortie
 *   pr�condition :
-*   postcondition :
+*   postcondition : les clients supplémentaires sont directement enregistré dans le fichier
 *
 */
 void sauvegarder(REPERTOIRE rep);
