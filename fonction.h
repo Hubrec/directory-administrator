@@ -125,27 +125,27 @@ void sauvegarder(REPERTOIRE rep);
 
 /* specification formelle
 *
-*   entr�e : 
-*   sortie :
+*   entr�e : la structure repertoire -> rep
+*   sortie : pas de sortie
 *   pr�condition :
-*   postcondition :
+*   postcondition : La fonction permet de libérer l'espace qui à été aloué a la structure répertoire rep
 *
 */
 REPERTOIRE liberte(REPERTOIRE rep);
 
 /* specification formelle
 *
-*   entr�e : 
-*   sortie :
+*   entr�e : le répertoire de client rep
+*   sortie : répertoire rep modifié
 *   pr�condition :
-*   postcondition :
+*   postcondition : suppression d'un client dans rep, retrait d'une case
 *
 */
 REPERTOIRE suppression(REPERTOIRE rep, int inditem);
 
 /* specification formelle
 *
-*   entr�e : 
+*   entr�e :  client 
 *   sortie :
 *   pr�condition :
 *   postcondition :
