@@ -314,6 +314,10 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 					for (k = 0; k < 7; k++) {
 						triinsertion(rep, k);
 					}
+					setupConsole();
+					setTextColor(YELLOW_TXT);
+					printf(" \nle client a bien ete supprime\n");
+					restoreConsole();
 				}
 				printf("\n");
 			}
