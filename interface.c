@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include "fonction.h"
+#include "ansi.h"
 
 REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toinon
 {
@@ -10,19 +11,23 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 	char commande[20];
 	char arg[20];
 	int show = 0;
-	CLIENT client;
+	CLIENT client = { client.prenom = 0, client.nom = 0, client.ville = 0, client.code_postal = 0, client.telephone = 0, client.email = 0, client.profession = 0 };
 
-	/*tabind = malloc(sizeof(int) * rep.taille);*/
-
+	setupConsole();
+	setTextColor(YELLOW_TXT);
 	printf("\n Bienvenu sur \"Annuaire 2000\" \n");
 	printf("\n (taper \"aide\" pour afficher les commandes disponibles) \n\n");
+	restoreConsole();
 
 	do {
 
 		int synt = 1;
-
+		setupConsole();
+		setTextColor(BLUE_TXT);
 		printf("\n*************************\n");
+		setTextColor(CYAN_TXT);
 		printf("---> entrer une commande : ");
+		restoreConsole();
 		fgets(commande, 20, stdin);
 		retourchariot(commande);
 		printf("\n");
@@ -40,13 +45,16 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 
 		if (!strcmp(commande, "nbclients") || !strcmp(commande, "nbc")) {
 			synt = 0;
+			setupConsole();
+			setTextColor(YELLOW_TXT);
 			printf("le nombre de clients est : %d\n\n", rep.taille);
+			restoreConsole();
 		}
 
 		if (!strcmp(commande, "ajout") || !strcmp(commande, "+"))
 		{
 			synt = 0;
-			CLIENT c;
+			CLIENT c = { c.prenom = 0, c.nom = 0, c.ville = 0, c.code_postal = 0, c.telephone = 0, c.email = 0, c.profession = 0 };
 			char buffer[50];
 
 			printf(" -> saisissez le prenom : ");
@@ -70,7 +78,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			c.code_postal= strdup(buffer);
 
 			printf(" -> saisissez le numero de telephonne : ");
-			fgets(buffer, 15, stdin);
+			fgets(buffer, 20, stdin);
 			retourchariot(buffer);
 			c.telephone= strdup(buffer);
 
@@ -86,7 +94,10 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 
 			rep = ajout(rep, c);
 
+			setupConsole();
+			setTextColor(YELLOW_TXT);
 			printf("\n vous avez ajoute 1 nouveau client\n\n");
+			restoreConsole();
 
 			int k;
 			for (k = 0; k < 7; k++) {
@@ -121,7 +132,8 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 		if (!strcmp(commande, "aide") || !strcmp(commande, "\0")) {
 
 			synt = 0;
-
+			setupConsole();
+			setTextColor(YELLOW_TXT);
 			if (show == 0) {
 				printf(" les differents commandes actuellement disponibles sont :\n");
 				printf("   -- afficher \n");
@@ -140,8 +152,8 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf("   -- rechercher\n");
 				printf("   -- ajout\n");
 				printf("   -- rechercher\n");
-				printf("		- supprimer\n");
-				printf("		- modifier\n");
+				printf("	  - supprimer\n");
+				printf("	  - modifier\n");
 				printf("    - nbclients \n");
 				printf("    - incomplet \n");
 				printf("    - aide \n");
@@ -153,21 +165,24 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf("		- detrier\n");
 				printf("		- (commande rapide) -> fast\n\n");
 			}
+			restoreConsole();
 		}
 
 		if (!strcmp(commande, "fast")) {
 
 			synt = 0;
-
+			setupConsole();
+			setTextColor(YELLOW_TXT);
 			printf(" les differentes commandes rapides sont : \n");
 			printf("	- afficher   -> a\n");
 			printf("	- rechercher -> r\n");
-			printf("	- ajout		 -> +\n");
+			printf("	- ajout      -> +\n");
 			printf("	- supprimer  -> -\n");
-			printf("	- nbclients  -> nbc\n");
 			printf("	- incomplet  -> c\n");
 			printf("	- fermer     -> f\n");
 			printf("	- effacer    -> e\n");
+			printf("	- nbclients  -> nbc\n");
+			restoreConsole();
 		}
 
 		if (!strcmp(commande, "effacer") || !strcmp(commande, "e")) {
@@ -194,7 +209,10 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 
 			int val = Afficher(rep, tabcol, tabfiltre, filtre, champ);
 
+			setupConsole();
+			setTextColor(YELLOW_TXT);
 			printf("\n le nombre de clients dont la fiche est incomplete est : %d\n\n", val);
+			restoreConsole();
 		}
 
 		if (!strcmp(commande, "detrier")) {
@@ -206,13 +224,16 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 					rep.tabind[i][j] = j;
 			}
 
+			setupConsole();
+			setTextColor(YELLOW_TXT);
 			printf("\n vous avez bien supprime le tri\n\n");
+			restoreConsole();
 		}
 
 		if (!strcmp(commande, "rechercher") || !strcmp(commande, "r")) {
 		
 			synt = 0;
-			CLIENT cl;
+			CLIENT cl = { cl.prenom = 0, cl.nom = 0, cl.ville = 0, cl.code_postal = 0, cl.telephone = 0, cl.email = 0, cl.profession = 0 };
 			char buffer[50];
 			int dernier;
 			int premier;
@@ -232,11 +253,14 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 
 
 			if (premier == -1) {
-
-				printf(" pas de clients trouves\n");
+				setupConsole();
+				setTextColor(RED_TXT);
+				printf(" \npas de clients trouves\n");
+				restoreConsole();
 			}
 			else if (premier == dernier) {
 				int i;
+				printf("\n");
 				for (i = 0; i < 7; i++) {
 					printf(" %s  | ", RecupereChamp(rep.clients[rep.tabind[NOM][premier]], i));
 				}
@@ -255,6 +279,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 					printf("\n");
 				}
 
+				printf("\n");
 				printf(" -> saisissez lequel choisir (son numero) : ");
 				int retour = scanf("%d", &choix);
 				retour = getchar();
@@ -270,7 +295,10 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				retourchariot(commande);
 
 				if (commande[0] == '\0') {
-					printf(" abandon de la recherche\n");
+					setupConsole();
+					setTextColor(RED_TXT);
+					printf(" \nabandon de la recherche\n");
+					restoreConsole();
 				}
 				else if (!strcmp(commande, "modifier") || !strcmp(commande, "*")) {
 
@@ -286,6 +314,10 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 					for (k = 0; k < 7; k++) {
 						triinsertion(rep, k);
 					}
+					setupConsole();
+					setTextColor(YELLOW_TXT);
+					printf(" \nle client a bien ete supprime\n");
+					restoreConsole();
 				}
 				printf("\n");
 			}
@@ -312,7 +344,10 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				champ = numero(arg);
 
 				if (champ == -1) {
+					setupConsole();
+					setTextColor(RED_TXT);
 					printf(" ERREUR SYNTAXE\n");
+					restoreConsole();
 				}
 			}
 
@@ -353,7 +388,10 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				champ = 7;
 			}
 			if (champ == -1) {
+				setupConsole();
+				setTextColor(RED_TXT);
 				printf(" ERREUR SYNTAXE\n");
+				restoreConsole();
 			}
 			else {
 				if (champ == 7) {
@@ -376,9 +414,10 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				}
 			}
 		}
-
+		setupConsole();
+		setTextColor(RED_TXT);
 		if (synt == 1) printf(" ERREUR SYNTAXE\n");
-
+		restoreConsole();
 	} while (fin != 1);
 
 	return rep;
@@ -432,7 +471,10 @@ void interfaceaff(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 					decoupe[j] = '\0';
 					int champ = numero(decoupe);
 					if (champ == -1) {
+						setupConsole();
+						setTextColor(RED_TXT);
 						printf("\n ERREUR SYNTAXE\n\n");
+						restoreConsole();
 						probleme = 1;
 						over = 1;
 					}
@@ -483,7 +525,10 @@ void interfaceaff(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 					decoupe[j] = '\0';
 					int champ = numero(decoupe);
 					if (champ == -1) {
+						setupConsole();
+						setTextColor(RED_TXT);
 						printf("\n ERREUR SYNTAXE\n\n");
+						restoreConsole();
 						probleme = 1;
 						over = 1;
 					}
@@ -511,7 +556,10 @@ void interfaceaff(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 	int lechamp = 0;;
 	do {
 		if (lechamp == -1) {
+			setupConsole();
+			setTextColor(RED_TXT);
 			printf("\n ERREUR SYNTAXE\n\n");
+			restoreConsole();
 		}
 		printf(" -> Entrer selon quel colonne vous voulez l'afficher (valeur par defaut -prenom) : ");
 		fgets(champsaisi, 30, stdin);
@@ -528,7 +576,10 @@ void interfaceaff(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 
 	int val = Afficher(rep, tabcol, tabfiltre, filtre, lechamp);
 
+	setupConsole();
+	setTextColor(YELLOW_TXT);
 	printf("\n vous avez affiche %d client(s)\n\n", val);
+	restoreConsole();
 }
 
 void interfacemodiff(REPERTOIRE rep, int item) {
@@ -539,9 +590,14 @@ void interfacemodiff(REPERTOIRE rep, int item) {
 	int probleme = 0;
 	int over = 0;
 
+	printf("\n");
 	int i;
 	for (i = 0; i < 8; i++) {
 		printf(" %s  | ", TabIntitules[i]);
+	}
+	printf("\n");
+	for (i = 0; i < 7; i++) {
+		printf(" %s  | ", RecupereChamp(rep.clients[item], i));
 	}
 
 	do {
@@ -552,7 +608,7 @@ void interfacemodiff(REPERTOIRE rep, int item) {
 
 
 		printf("\n\n");
-		printf(" -> entrez la liste d'elements que vous shouaitez modifier (valeur par fefaut -tout) : ");
+		printf(" -> entrez la liste d'elements que vous shouaitez modifier (valeur par defaut -tout) : ");
 		fgets(elements, 100, stdin);
 
 		if (elements[0] == '\n') {
@@ -574,7 +630,10 @@ void interfacemodiff(REPERTOIRE rep, int item) {
 					decoupe[j] = '\0';
 					int champ = numero(decoupe);
 					if (champ == -1) {
+						setupConsole();
+						setTextColor(RED_TXT);
 						printf("\n ERREUR SYNTAXE\n\n");
+						restoreConsole();
 						probleme = 1;
 						over = 1;
 					}
@@ -596,7 +655,7 @@ void interfacemodiff(REPERTOIRE rep, int item) {
 	printf(" tips : si vous ne voulez plus modifier tapez simplement entree\n\n");
 
 	char buffer[50];
-	CLIENT cl;
+	CLIENT cl = { cl.prenom = 0, cl.nom = 0, cl.ville = 0, cl.code_postal = 0, cl.telephone = 0, cl.email = 0, cl.profession = 0 };
 
 	if (tabelement[0] == 1) {
 		printf(" -> valeur actuelle pour le prenom : \"%s\", saisissez son remplacement : ", rep.clients[item].prenom);
@@ -649,7 +708,10 @@ void interfacemodiff(REPERTOIRE rep, int item) {
 
 	rep = modifier(rep, item, tabelement, cl);
 
-	printf("\n\n les informations concernant %s ont bien ete prises en compte\n", rep.clients[item].prenom);
+	setupConsole();
+	setTextColor(YELLOW_TXT);
+	printf("\n\n les informations concernant %s %s ont bien ete prises en compte\n", rep.clients[item].prenom, rep.clients[item].nom);
+	restoreConsole();
 
 	int k;
 	for (k = 0; k < 7; k++) {
