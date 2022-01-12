@@ -191,4 +191,4 @@ char* RecupereChamp(CLIENT client, int numerochamp);
 *   postcondition : 
 *
 */
-void interfacemodiff(REPERTOIRE rep, int item);
+void interfacemodiff(REPERTOIRE rep, int item); 

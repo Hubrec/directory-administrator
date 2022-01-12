@@ -5,7 +5,7 @@
 #include "fonction.h"
 
 REPERTOIRE Importer(char nom_fichier[]) //responsable fonction : Guerin Toinon
-{
+{ 
 	REPERTOIRE rep;
 	rep.taille = 0;
 

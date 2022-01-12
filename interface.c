@@ -6,7 +6,7 @@
 #include "ansi.h"
 
 REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toinon
-{
+{ 
 	int fin = 0;
 	char commande[20];
 	char arg[20];

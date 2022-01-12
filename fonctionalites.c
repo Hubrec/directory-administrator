@@ -17,7 +17,7 @@ int numero(char* nom) {
 		}
 	}
 	return champ;
-}
+} 
 
 void retourchariot(char* chaine) {
 	if (chaine[strlen(chaine) - 1] == '\n') {
