@@ -3,13 +3,16 @@
 #include <string.h>
 #include "fonction.h"
 
+
 /* fonction principale */
 /* ************************************ */
 int main()
 {
     REPERTOIRE rep;
-
-    rep = Importer("annuaire5000.csv");
+    char nomfichier[30];
+    printf("Quel est le nom du fichier voulez vous ouvrir ?\n");
+    scanf("%s", nomfichier);
+    rep = Importer(nomfichier);
     
     int k;
     for (k = 0; k < 7; k++) {

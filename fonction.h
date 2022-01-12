@@ -155,7 +155,7 @@ int compare(CLIENT c1, CLIENT c2, int champ);
 
 /* specification formelle
 *
-*   entr�e : 
+*   entr�e : rep 
 *   sortie :
 *   pr�condition :
 *   postcondition :
@@ -175,7 +175,7 @@ int recherche(REPERTOIRE rep, CLIENT c, int* dernier);
 
 /* specification formelle
 *
-*   entr�e :
+*   entr�e : repertoire rep, client c et numerochamp
 *   sortie :
 *   pr�condition :
 *   postcondition :
