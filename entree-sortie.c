@@ -83,7 +83,7 @@ REPERTOIRE Importer(char nom_fichier[]) //responsable fonction : Guerin Toinon
 	return rep;
 }
 
-void sauvegarder(REPERTOIRE rep) //fonction a revoir pour qu'elle marche
+void sauvegarder(REPERTOIRE rep) //responsable fonction : Toinon
 {
 
 	int v;
@@ -111,7 +111,7 @@ void sauvegarder(REPERTOIRE rep) //fonction a revoir pour qu'elle marche
 	fclose(fichier);
 }
 
-REPERTOIRE liberte(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
+REPERTOIRE liberte(REPERTOIRE rep) { //responsable fonction : Guerin
 
 	int i;
 
