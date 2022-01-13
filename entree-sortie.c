@@ -4,7 +4,7 @@
 #include <time.h>
 #include "fonction.h"
 
-REPERTOIRE Importer(char nom_fichier[]) //responsable fonction : Guerin Toinon
+REPERTOIRE Importer(char nom_fichier[]) //responsable fonction : Guerin
 { 
 	REPERTOIRE rep;
 	rep.taille = 0;
@@ -83,11 +83,11 @@ REPERTOIRE Importer(char nom_fichier[]) //responsable fonction : Guerin Toinon
 	return rep;
 }
 
-void sauvegarder(REPERTOIRE rep) //fonction a revoir pour qu'elle marche
+void sauvegarder(REPERTOIRE rep, char nomfichier[]) //responsable fonction : Toinon
 {
 
 	int v;
-	FILE* fichier = fopen("annuaire5000.csv", "w");
+	FILE* fichier = fopen(nomfichier, "w");
 
 	if (fichier == NULL)
 	{

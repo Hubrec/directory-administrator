@@ -12,7 +12,7 @@ int main()
     int test = 0;
     do {
         test = 0;
-        printf(" quel est le nom du fichier voulez vous ouvrir : ");
+        printf("\n quel est le nom du fichier voulez vous ouvrir : ");
         fgets(nomfichier, 30, stdin);
         retourchariot(nomfichier);
 
@@ -25,16 +25,14 @@ int main()
 
     rep = Importer(nomfichier);
     
-    rep = Importer("annuaire5000.csv");
-    
     int k;
     for (k = 0; k < 7; k++) {
         tripeigne(rep, k);
     }
 
-    rep = InterfaceTerminal(rep);  //appel de l'interface terminal qui gere tout les appels de fonctions
+    rep = InterfaceTerminal(rep, nomfichier);  //appel de l'interface terminal qui gere tout les appels de fonctions
 
-    sauvegarder(rep);
+    sauvegarder(rep, nomfichier);
 
     rep = liberte(rep); //fonction a fire pour liberer la memoire
 

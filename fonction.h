@@ -41,7 +41,7 @@ REPERTOIRE Importer(char nom_fichier[30]);
 *   postcondition : pas de postcondition, il s'agit simplement d'une redirection
 *
 */
-REPERTOIRE InterfaceTerminal(REPERTOIRE rep);
+REPERTOIRE InterfaceTerminal(REPERTOIRE rep, char nomfichier[]);
 
 /* specification formelle
 *
@@ -121,7 +121,7 @@ REPERTOIRE ajout(REPERTOIRE rep, CLIENT c);
 *   postcondition :
 *
 */
-void sauvegarder(REPERTOIRE rep);
+void sauvegarder(REPERTOIRE rep, char nomfichier[]);
 
 /* specification formelle
 *
