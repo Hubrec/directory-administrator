@@ -1,1 +1,5 @@
-#include "fonction.h"
+#include "interface.c"
+#include "fonctionalites.c"
+#include "entree-sortie.c"
+#include "ansi.c"
+#include "ansi.h"
