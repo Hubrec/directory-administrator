@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdio.h>
-
+ 
 enum Colors {
     RESET_COLOR,
     BLACK_TXT = 30,

@@ -5,8 +5,10 @@
 #include "fonction.h"
 #include "ansi.h"
 
-REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toinon
-{
+int timebool = 0;
+
+REPERTOIRE InterfaceTerminal(REPERTOIRE rep, char nomfichier[]) //responsable fonction : Guerin Toinon
+{ 
 	int fin = 0;
 	char commande[20];
 	char arg[20];
@@ -15,7 +17,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 
 	setupConsole();
 	setTextColor(YELLOW_TXT);
-	printf("\n Bienvenu sur \"Annuaire 2000\" \n");
+	printf("\n Bienvenue sur \"Annuaire 2000\" \n");
 	printf("\n (taper \"aide\" pour afficher les commandes disponibles) \n\n");
 	restoreConsole();
 
@@ -126,7 +128,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 		if (!strcmp(commande, "sauvegarder")) {
 
 			synt = 0;
-			sauvegarder(rep);
+			sauvegarder(rep, nomfichier);
 		}
 
 		if (!strcmp(commande, "aide") || !strcmp(commande, "\0")) {
@@ -139,7 +141,6 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf("   -- afficher \n");
 				printf("   -- rechercher\n");
 				printf("   -- ajout\n");
-				printf("   -- rechercher\n");
 				printf("    - nbclients \n");
 				printf("    - incomplet \n");
 				printf("    - aide \n");
@@ -150,10 +151,9 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf(" les differents commandes actuellement disponibles sont :\n");
 				printf("   -- afficher \n");
 				printf("   -- rechercher\n");
-				printf("   -- ajout\n");
-				printf("   -- rechercher\n");
 				printf("	  - supprimer\n");
 				printf("	  - modifier\n");
+				printf("   -- ajout\n");
 				printf("    - nbclients \n");
 				printf("    - incomplet \n");
 				printf("    - aide \n");
@@ -163,6 +163,8 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 				printf("		- tripeigne\n");
 				printf("		- triinser\n");
 				printf("		- detrier\n");
+				printf("		- effacer\n");
+				printf("		- timeOn / timeOf\n");
 				printf("		- (commande rapide) -> fast\n\n");
 			}
 			restoreConsole();
@@ -177,10 +179,11 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			printf("	- afficher   -> a\n");
 			printf("	- rechercher -> r\n");
 			printf("	- ajout      -> +\n");
-			printf("	- supprimer  -> -\n");
 			printf("	- incomplet  -> c\n");
 			printf("	- fermer     -> f\n");
 			printf("	- effacer    -> e\n");
+			printf("	- timeOn     -> on\n");
+			printf("	- timeOf     -> of\n");
 			printf("	- nbclients  -> nbc\n");
 			restoreConsole();
 		}
@@ -189,6 +192,18 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			
 			synt = 0;
 			system("cls");
+		}
+
+		if (!strcmp(commande, "timeOn") || !strcmp(commande, "on")) {
+
+			synt = 0;
+			timebool = 1;
+		}
+
+		if (!strcmp(commande, "timeOf") || !strcmp(commande, "of")) {
+
+			synt = 0;
+			timebool = 0;
 		}
 
 		if (!strcmp(commande, "incomplet") || !strcmp(commande, "c")) {
@@ -249,8 +264,12 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 			retourchariot(buffer);
 			cl.prenom = strdup(buffer);
 
+			clock_t tic = clock();
 			premier = recherche(rep, cl, &dernier);
-
+			clock_t tac = clock();
+			if (timebool == 1) {
+				printf(" Duree de la recherche : %lf ms\n", ((double)(tac - tic) / CLOCKS_PER_SEC) * 1000);
+			}
 
 			if (premier == -1) {
 				setupConsole();
@@ -358,16 +377,22 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 					clock_t tac = clock();
 					tripeigne(rep, k);
 					clock_t tuc = clock();
-					printf(" Duree du %d tri : %lf ms\n", k + 1, ((double)(tuc - tac) / CLOCKS_PER_SEC) * 1000);
+					if (timebool == 1) {
+						printf(" Duree du %d tri : %lf ms\n", k + 1, ((double)(tuc - tac) / CLOCKS_PER_SEC) * 1000);
+					}
 				}
 				clock_t toc = clock();
-				printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+				if (timebool == 1) {
+					printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+				}
 			}
 			else {
 				clock_t tic = clock();
 				tripeigne(rep, champ);
 				clock_t toc = clock();
-				printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+				if (timebool == 1) {
+					printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+				}
 			}
 		}
 
@@ -401,16 +426,22 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 						clock_t tac = clock();
 						triinsertion(rep, k);
 						clock_t tuc = clock();
-						printf(" Duree du %d tri : %lf ms\n", k + 1, ((double)(tuc - tac) / CLOCKS_PER_SEC) * 1000);
+						if (timebool == 1) {
+							printf(" Duree du %d tri : %lf ms\n", k + 1, ((double)(tuc - tac) / CLOCKS_PER_SEC) * 1000);
+						}
 					}
 					clock_t toc = clock();
-					printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+					if (timebool == 1) {
+						printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+					}
 				}
 				else {
 					clock_t tic = clock();
 					triinsertion(rep, champ);
 					clock_t toc = clock();
-					printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+					if (timebool == 1) {
+						printf(" Duree de tri : %lf ms\n", ((double)(toc - tic) / CLOCKS_PER_SEC) * 1000);
+					}
 				}
 			}
 		}
@@ -423,7 +454,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 	return rep;
 }
 
-void interfaceaff(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
+void interfaceaff(REPERTOIRE rep) { //responsable fonction : Guerin
 
 
 	char arg[100];
@@ -573,16 +604,21 @@ void interfaceaff(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 		}
 	} while (lechamp == -1);
 
-
+	clock_t tic = clock();
 	int val = Afficher(rep, tabcol, tabfiltre, filtre, lechamp);
+	clock_t tac = clock();
+	if (timebool == 1) {
+		printf(" Duree de l affichage : %lf ms\n", ((double)(tac - tac) / CLOCKS_PER_SEC) * 1000);
+	}
 
+	printf("\n");
 	setupConsole();
 	setTextColor(YELLOW_TXT);
 	printf("\n vous avez affiche %d client(s)\n\n", val);
 	restoreConsole();
 }
 
-void interfacemodiff(REPERTOIRE rep, int item) {
+void interfacemodiff(REPERTOIRE rep, int item) { //responsable fonction : Toinon
 
 	int tabelement[7] = { 0,0,0,0,0,0,0 };
 	char elements[100];
@@ -710,7 +746,7 @@ void interfacemodiff(REPERTOIRE rep, int item) {
 
 	setupConsole();
 	setTextColor(YELLOW_TXT);
-	printf("\n\n les informations concernant %s %s ont bien ete prises en compte\n", rep.clients[item].prenom, rep.clients[item].nom);
+	printf("\n\n les informations concernant le client ont bien ete prises en compte\n");
 	restoreConsole();
 
 	int k;
