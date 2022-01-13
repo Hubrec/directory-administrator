@@ -8,7 +8,7 @@ const char* TabIntitules[8] = { "prenom","nom","ville","codepostal","telephone",
 const int espacement[] = { 25,30,25,10,20,45,20 };
 
 
-int numero(char* nom) {
+int numero(char* nom) { //responsable fonction : Guerin
 	int champ = -1;
 	int j;
 	for (j = 0; j < 8; j++) {
@@ -19,7 +19,7 @@ int numero(char* nom) {
 	return champ;
 } 
 
-void retourchariot(char* chaine) {
+void retourchariot(char* chaine) { //responsable fonction : Guerin
 	if (chaine[strlen(chaine) - 1] == '\n') {
 		chaine[strlen(chaine) - 1] = '\0';
 	}
@@ -29,7 +29,7 @@ void retourchariot(char* chaine) {
 	}
 }
 
-char* RecupereChamp(CLIENT client, int numerochamp) { //responsable fonction : Guerin Toinon
+char* RecupereChamp(CLIENT client, int numerochamp) { //responsable fonction : Guerin
 	switch (numerochamp) {
 		case PRENOM:
 			return(client.prenom);
@@ -57,7 +57,7 @@ char* RecupereChamp(CLIENT client, int numerochamp) { //responsable fonction : G
 	return NULL;
 }
 
-int compare(CLIENT c1, CLIENT c2, int champ) { //responsable fonction : Guerin Toinon
+int compare(CLIENT c1, CLIENT c2, int champ) { //responsable fonction : Guerin
 	int resultat;
 	switch (champ) {
 		case NOM:
@@ -82,7 +82,7 @@ int compare(CLIENT c1, CLIENT c2, int champ) { //responsable fonction : Guerin T
 	return -1;
 }
 
-int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int champ) { //responsable fonction : Guerin Toinon
+int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int champ) { //responsable fonction : Guerin
 
 	int i, j, q;
 	int combien = 0;
@@ -116,7 +116,7 @@ int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int ch
 	return combien;
 }
 
-void triinsertion(REPERTOIRE rep, int champ) //responsable fonction : Guerin Toinon
+void triinsertion(REPERTOIRE rep, int champ) //responsable fonction : Toinon
 {
 	//CLIENT client;
 	int i, j, tmp;
@@ -136,7 +136,7 @@ void triinsertion(REPERTOIRE rep, int champ) //responsable fonction : Guerin Toi
 	}
 }
 
-void tripeigne(REPERTOIRE rep, int champ) //responsable fonction : Guerin Toinon
+void tripeigne(REPERTOIRE rep, int champ) //responsable fonction : Guerin
 {
 	
 	int interval = rep.taille;
@@ -165,7 +165,7 @@ void tripeigne(REPERTOIRE rep, int champ) //responsable fonction : Guerin Toinon
 	}
 }
 
-REPERTOIRE ajout(REPERTOIRE rep, CLIENT c) //responsable fonction : Guerin Toinon
+REPERTOIRE ajout(REPERTOIRE rep, CLIENT c) //responsable fonction : Guerin
 {
 
 	rep.taille++;
@@ -193,9 +193,8 @@ REPERTOIRE ajout(REPERTOIRE rep, CLIENT c) //responsable fonction : Guerin Toino
 	return rep;
 }
 
-REPERTOIRE suppression(REPERTOIRE rep, int inditem) { // en construction
+REPERTOIRE suppression(REPERTOIRE rep, int inditem) { //responsable fonction : Guerin
 
-	
 	rep.taille--;
 	rep.clients[inditem] = rep.clients[rep.taille];
 
@@ -224,7 +223,7 @@ REPERTOIRE suppression(REPERTOIRE rep, int inditem) { // en construction
 	return rep;
 }
 
-REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[], CLIENT cl) {
+REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[], CLIENT cl) { //responsable fonction : Toinon
 
 	if (tabelement[0] == 1) {
 		if (cl.prenom[0] != '\O') rep.clients[inditem].prenom = strdup(cl.prenom);
@@ -257,7 +256,7 @@ REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[], CLIENT cl) {
 	return rep;
 }
 
-int recherche(REPERTOIRE rep, CLIENT c, int * dernier) {
+int recherche(REPERTOIRE rep, CLIENT c, int * dernier) { //responsable fonction : Toinon
 
 	int indicedep = 0;
 	int indicefin = rep.taille - 1;
@@ -287,4 +286,3 @@ int recherche(REPERTOIRE rep, CLIENT c, int * dernier) {
 	}
 	return(-1);
 }
-

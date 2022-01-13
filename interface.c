@@ -423,7 +423,7 @@ REPERTOIRE InterfaceTerminal(REPERTOIRE rep) //responsable fonction : Guerin Toi
 	return rep;
 }
 
-void interfaceaff(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
+void interfaceaff(REPERTOIRE rep) { //responsable fonction : Guerin
 
 
 	char arg[100];
@@ -573,16 +573,16 @@ void interfaceaff(REPERTOIRE rep) { //responsable fonction : Guerin Toinon
 		}
 	} while (lechamp == -1);
 
-
 	int val = Afficher(rep, tabcol, tabfiltre, filtre, lechamp);
 
+	printf("\n");
 	setupConsole();
 	setTextColor(YELLOW_TXT);
 	printf("\n vous avez affiche %d client(s)\n\n", val);
 	restoreConsole();
 }
 
-void interfacemodiff(REPERTOIRE rep, int item) {
+void interfacemodiff(REPERTOIRE rep, int item) { //responsable fonction : Toinon
 
 	int tabelement[7] = { 0,0,0,0,0,0,0 };
 	char elements[100];
