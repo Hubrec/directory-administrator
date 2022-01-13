@@ -85,8 +85,8 @@ void retourchariot(char* chaine);
 
 /* specification formelle
 *
-*   entr�e : 
-*   sortie :
+*   entr�e : le répertoire rep
+*   sortie : pas de return
 *   pr�condition :
 *   postcondition :
 *
@@ -95,7 +95,7 @@ void interfaceaff(REPERTOIRE rep);
 
 /* specification formelle
 *
-*   entr�e : 
+*   entr�e : répertoire rep 
 *   sortie :
 *   pr�condition :
 *   postcondition :
@@ -178,7 +178,7 @@ int recherche(REPERTOIRE rep, CLIENT c, int* dernier);
 *   entr�e : repertoire rep, client c et numerochamp
 *   sortie :
 *   pr�condition :
-*   postcondition :
+*   postcondition :la fonction renvoie le prenom ou nom ou ... en fonction du numéro du champ qu'il reçoit
 *
 */
 char* RecupereChamp(CLIENT client, int numerochamp);
@@ -188,7 +188,7 @@ char* RecupereChamp(CLIENT client, int numerochamp);
 *   entr�e : 
 *   sortie : 
 *   pr�condition : 
-*   postcondition : 
+*   postcondition : cette fonction 
 *
 */
 void interfacemodiff(REPERTOIRE rep, int item);
