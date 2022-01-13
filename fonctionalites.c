@@ -58,6 +58,7 @@ char* RecupereChamp(CLIENT client, int numerochamp) { //responsable fonction : G
 }
 
 int compare(CLIENT c1, CLIENT c2, int champ) { //responsable fonction : Guerin
+	
 	int resultat;
 	switch (champ) {
 		case NOM:
@@ -76,8 +77,7 @@ int compare(CLIENT c1, CLIENT c2, int champ) { //responsable fonction : Guerin
 		case MAIL:
 			return strcmp(c1.email, c2.email);
 		case PROF:
-			return strcmp(c1.profession, c2.profession);
-			
+			return strcmp(c1.profession, c2.profession);	
 	}
 	return -1;
 }
