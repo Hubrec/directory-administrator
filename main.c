@@ -19,7 +19,7 @@ int main()
     int test = 0;
     do {
         test = 0;
-        printf(" quel est le nom du fichier voulez vous ouvrir : ");
+        printf("\n quel est le nom du fichier voulez vous ouvrir : ");
         fgets(nomfichier, 30, stdin);
         retourchariot(nomfichier);
 

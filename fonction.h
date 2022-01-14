@@ -88,7 +88,7 @@ void retourchariot(char* chaine);
 *   entr�e : le répertoire rep
 *   sortie : pas de return
 *   pr�condition :
-*   postcondition :
+*   postcondition : 
 *
 */
 void interfaceaff(REPERTOIRE rep);
@@ -98,7 +98,7 @@ void interfaceaff(REPERTOIRE rep);
 *   entr�e : répertoire rep 
 *   sortie :
 *   pr�condition :
-*   postcondition :
+*   postcondition : 
 *
 */
 int Afficher(REPERTOIRE rep, int tabcol[], int tabfiltre[], char* filtre, int champ);
@@ -155,10 +155,10 @@ int compare(CLIENT c1, CLIENT c2, int champ);
 
 /* specification formelle
 *
-*   entr�e : rep 
+*   entr�e : repertoire rep
 *   sortie :
 *   pr�condition :
-*   postcondition :
+*   postcondition : cette fonction renvoie le client avec les données qui ont été modifié par l'utilisateur
 *
 */
 REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[], CLIENT cl);
@@ -166,9 +166,9 @@ REPERTOIRE modifier(REPERTOIRE rep, int inditem, int tabelement[], CLIENT cl);
 /* specification formelle
 *
 *   entr�e :
-*   sortie :
+*   sortie :indice des clients recherchée
 *   pr�condition :
-*   postcondition :
+*   postcondition :renvoie l'indice des clients correspondant à la recherche
 *
 */
 int recherche(REPERTOIRE rep, CLIENT c, int* dernier);
@@ -176,9 +176,9 @@ int recherche(REPERTOIRE rep, CLIENT c, int* dernier);
 /* specification formelle
 *
 *   entr�e : repertoire rep, client c et numerochamp
-*   sortie :
-*   pr�condition :
-*   postcondition :la fonction renvoie le prenom ou nom ou ... en fonction du numéro du champ qu'il reçoit
+*   sortie : retourne un champ en fonction du numéro du champ
+*   pr�condition : le numéro de champ est compris entre zéro et sept
+*   postcondition : la fonction renvoie le prenom ou nom ou ... en fonction du numéro du champ qu'il reçoit
 *
 */
 char* RecupereChamp(CLIENT client, int numerochamp);
@@ -186,9 +186,9 @@ char* RecupereChamp(CLIENT client, int numerochamp);
 /* specification formelle
 *
 *   entr�e : 
-*   sortie : 
+*   sortie : pas de return
 *   pr�condition : 
-*   postcondition : cette fonction 
+*   postcondition : 
 *
 */
 void interfacemodiff(REPERTOIRE rep, int item);

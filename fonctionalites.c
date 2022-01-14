@@ -19,7 +19,7 @@ int numero(char* nom) {//responsable fonction : Guerin
 	return champ;
 }
 
-void retourchariot(char* chaine) {//responsable fonction : Guerin
+void retourchariot(char* chaine) {//responsable fonction : Toinon
 	if (chaine[strlen(chaine) - 1] == '\n') {
 		chaine[strlen(chaine) - 1] = '\0';
 	}
